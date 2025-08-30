@@ -3,41 +3,141 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 24, 82;
-  --background-end-rgb: 0, 0, 0;
+  /* Light theme foreground/background for Orb-like UI */
+  --foreground-rgb: 17, 17, 17;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 255, 255, 255;
 
   /* Theme tokens (scaffold) */
   /* Font family for sans text across the site */
   --cnx-font-sans: sans-serif;
 
-  /* Button tokens from target site (normal state) */
-  --cnx-btn-font-size: 12px;
+  /* Button tokens approximating Orb primary CTA (black pill) */
+  --cnx-btn-font-size: 16px;
   --cnx-btn-padding-y: 12px;
-  --cnx-btn-padding-x: 24px;
-  --cnx-btn-radius: 10px;
-  --cnx-btn-text: rgb(0, 0, 238);
-  --cnx-btn-bg: rgb(0, 0, 0);
-  --cnx-btn-shadow: rgba(61, 61, 61, 0.72) 0px 0.602187px 1.08394px -1.25px, rgba(61, 61, 61, 0.64) 0px 2.28853px 4.11936px -2.5px, rgba(61, 61, 61, 0.25) 0px 10px 18px -3.75px, rgba(0, 0, 0, 0.35) 0px 0.706592px 0.706592px -0.583333px, rgba(0, 0, 0, 0.34) 0px 1.80656px 1.80656px -1.16667px, rgba(0, 0, 0, 0.33) 0px 3.62176px 3.62176px -1.75px, rgba(0, 0, 0, 0.3) 0px 6.8656px 6.8656px -2.33333px, rgba(0, 0, 0, 0.26) 0px 13.6468px 13.6468px -2.91667px, rgba(0, 0, 0, 0.15) 0px 30px 30px -3.5px;
-  /* Button hover tokens (defaults mirror normal state until we extract exact values) */
-  --cnx-btn-text-hover: var(--cnx-btn-text);
-  --cnx-btn-bg-hover: var(--cnx-btn-bg);
-  --cnx-btn-shadow-hover: var(--cnx-btn-shadow);
+  --cnx-btn-padding-x: 20px;
+  --cnx-btn-radius: 9999px; /* pill */
+  --cnx-btn-text: #ffffff;
+  --cnx-btn-bg: #0a0a0a; /* deep black */
+  /* Soft, layered drop shadow to emulate Orb's lifted black CTA */
+  --cnx-btn-shadow:
+    0 1px 1px rgba(0,0,0,0.30), /* tight contact shadow */
+    0 10px 12px rgba(0,0,0,0.22), /* primary soft shadow */
+    0 28px 40px rgba(0,0,0,0.20); /* long falloff */
+  /* Hover tokens */
+  --cnx-btn-text-hover: #ffffff;
+  --cnx-btn-bg-hover: #141414; /* slightly lighter on hover */
+  --cnx-btn-shadow-hover:
+    0 2px 2px rgba(0,0,0,0.32),
+    0 12px 16px rgba(0,0,0,0.24),
+    0 36px 52px rgba(0,0,0,0.22);
 
-  /* Focus ring color token for buttons/interactive elements */
-  --cnx-focus-ring: rgba(0, 0, 238, 0.6);
+  /* Focus ring + motion tokens */
+  --cnx-focus-ring: rgba(0, 0, 0, 0.5);
   --cnx-transition: all;
-  --cnx-duration: 0s;
-  --cnx-ease: ease;
+  --cnx-duration: 220ms;
+  --cnx-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Card tokens to match Orb cards */
+  --cnx-card-radius: 22px;
+  --cnx-card-border: rgba(0,0,0,0.08);
+  --cnx-card-bg: #ffffff;
+  --cnx-card-shadow:
+    0 1px 1px rgba(0,0,0,.05),
+    0 8px 16px rgba(0,0,0,.06),
+    0 24px 48px rgba(0,0,0,.05);
+  /* Stronger elevation used by Card variant="raised" */
+  --cnx-card-shadow-raised:
+    0 2px 4px rgba(0,0,0,.06),
+    0 10px 20px rgba(0,0,0,.08),
+    0 28px 56px rgba(0,0,0,.07),
+    0 48px 96px rgba(0,0,0,.05);
+
+  /* Chip/Tag tokens (Orb-like raised pill chips) */
+  --cnx-chip-radius: 9999px; /* pill */
+  --cnx-chip-bg: rgba(255,255,255,0.95);
+  --cnx-chip-border: rgba(0,0,0,0.08);
+  --cnx-chip-shadow:
+    0 2px 6px rgba(0,0,0,0.08),
+    0 8px 16px rgba(0,0,0,0.06);
+}
+
+/* Let Lenis manage smooth scrolling to avoid conflicts. */
+html {
+  scroll-behavior: auto;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   font-family: var(--cnx-font-sans);
+  /* Light background */
   background: linear-gradient(
       to bottom,
       rgb(var(--background-start-rgb)),
       rgb(var(--background-end-rgb))
-    )
-    fixed;
+    ) fixed;
+  background-color: #ffffff; /* ensures white base */
+}
+
+/* Floating navbar pill container (centered, blurred, soft shadow) */
+.navbar-pill {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.06);
+  backdrop-filter: saturate(180%) blur(10px);
+}
+
+/* Desktop navbar: clear glass (transparent) with strong backdrop blur and subtle separators */
+.navbar-glass {
+  /* Keep the background transparent so it reads as clear glass */
+  background: transparent;
+  /* Apply backdrop blur + slight saturation to mimic physical glass */
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  /* No bottom border per design request */
+  border-bottom: none;
+  /* No drop shadow below the nav per design request */
+  box-shadow: none;
+}
+
+/* Orb-style hero section with central sphere + subtle ripples */
+.orb-hero {
+  position: relative;
+  min-height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.orb-hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.orb-hero__sphere {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 560px;
+  height: 560px;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f1f1f1 70%, #ececec 100%);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 60px 120px rgba(0,0,0,0.06);
+  filter: blur(0.2px);
+}
+.orb-hero__ripples {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+  width: 1100px;
+  height: 1100px;
+  border-radius: 9999px;
+  background:
+    radial-gradient(closest-side, rgba(0,0,0,0.05), transparent 80%),
+    radial-gradient(closest-side, rgba(0,0,0,0.03), transparent 60%),
+    radial-gradient(closest-side, rgba(0,0,0,0.02), transparent 40%);
+  filter: blur(6px);
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Define the available button variants
-export type ButtonVariant = 'primary' | 'ghost' | 'accent';
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'accent';
 
 // Define the props interface for the Button component
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -88,8 +88,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
      * They also provide sensible hover/focus colors out of the box.
      */
     const variantClasses = {
+      // Primary is our main CTA; tokens will override its colors/shadow to match the theme.
       primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      // Secondary is a white pill with a subtle border + soft shadow (Orb-like).
+      // We intentionally do NOT apply token overrides to secondary so it can remain white
+      // even if the primary tokens change. This yields the black/white CTA pair.
+      secondary: [
+        'bg-white text-black',
+        'border border-black/10',
+        // Soft layered shadow approximating Orb secondary buttons
+        'shadow-[0_1px_1px_rgba(0,0,0,.06),0_6px_12px_rgba(0,0,0,.06)]',
+        'hover:bg-neutral-100',
+        'focus:ring-black/40'
+      ].join(' '),
+      // Ghost remains a very light-weight option for links or minimal CTAs
       ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+      // Accent is available for highlight usage (kept from scaffold)
       accent: 'bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-500',
     } as const;
 
@@ -97,7 +111,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const widthClasses = fullWidth ? 'w-full' : '';
     const disabledClasses = disabled || isLoading ? 'opacity-50 cursor-not-allowed' : '';
 
-    // Append token-based overrides last so they take precedence over variant fallbacks
+    // Append token-based overrides last so they take precedence over variant fallbacks.
+    // IMPORTANT: We only apply these for the 'primary' variant to allow other
+    // variants (e.g., a white secondary button) to style independently without
+    // being forced to adopt the global token colors.
     const tokenOverrideClasses = [
       'text-[var(--cnx-btn-text)]',
       'bg-[var(--cnx-btn-bg)]',
@@ -109,11 +126,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       // Focus ring color from token
       'focus:ring-[var(--cnx-focus-ring)]',
     ].join(' ');
+    const tokenAppliedForVariant = variant === 'primary' ? tokenOverrideClasses : '';
 
     return (
       <button
         ref={ref}
-        className={`${baseClasses} ${variantClasses[variant]} ${widthClasses} ${disabledClasses} ${tokenOverrideClasses} ${className}`}
+        className={`${baseClasses} ${variantClasses[variant]} ${widthClasses} ${disabledClasses} ${tokenAppliedForVariant} ${className}`}
         disabled={disabled || isLoading}
         // Inline style allows variable-driven motion tokens (duration/easing)
         style={{

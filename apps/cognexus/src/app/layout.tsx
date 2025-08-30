@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navigation } from '../components/Navigation';
+import SmoothScroll from '../components/SmoothScroll';
 
 // Define metadata for the application
 export const metadata: Metadata = {
@@ -17,11 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans">
+        {/* Global smooth scrolling for in-page anchors */}
+        <SmoothScroll />
         {/* Navigation component */}
         <Navigation />
         
-        {/* Main content container with padding for the fixed navigation */}
-        <div className="pt-16">
+        {/* Main content container */}
+        {/* On mobile, add extra top padding to clear the fixed floating pill nav. */}
+        {/* On desktop, navbar is sticky and occupies its own height, so no extra padding. */}
+        <div className="pt-20 md:pt-0">
           {children}
         </div>
       </body>

@@ -23,6 +23,12 @@ export interface CardProps {
   hoverable?: boolean;
   
   /**
+   * Visual variant of the card. "raised" uses a stronger, layered shadow to
+   * match Orb-style elevated tiles. Defaults to "base".
+   */
+  variant?: 'base' | 'raised';
+
+  /**
    * Optional additional CSS classes
    */
   className?: string;
@@ -61,6 +67,7 @@ export const Card: React.FC<CardProps> = ({
   title,
   footer,
   hoverable = false,
+  variant = 'base',
   className = '',
   borderColor = 'default',
 }) => {
@@ -86,11 +93,17 @@ export const Card: React.FC<CardProps> = ({
       // Tailwind fallback from classes above continues to apply.
       style={{
         borderRadius: 'var(--cnx-card-radius)',
-        boxShadow: 'var(--cnx-card-shadow)',
+        // Use a stronger, layered shadow when variant="raised"; otherwise
+        // default to the base card shadow. Both are themeable via CSS vars.
+        boxShadow: variant === 'raised'
+          ? 'var(--cnx-card-shadow-raised, var(--cnx-card-shadow))'
+          : 'var(--cnx-card-shadow)',
         backgroundColor: 'var(--cnx-card-bg)',
         // Using borderColor enables soft theming without removing Tailwind fallback
         borderColor: 'var(--cnx-card-border)'
       }}
+      // Data attribute enables host apps to target variants in CSS if needed
+      data-variant={variant}
     >
       {/* Card title */}
       {title && (
