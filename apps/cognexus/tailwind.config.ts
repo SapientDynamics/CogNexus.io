@@ -7,7 +7,24 @@ const config: Config = {
     "../../packages/ui/**/*.{ts,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // Use CSS variable so we can swap fonts from globals.css without rebuilding
+        sans: [
+          'var(--cnx-font-sans)',
+          'ui-sans-serif',
+          'system-ui',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
+        ],
+      },
+    },
   },
   plugins: [],
 };

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { Button, Card } from '@cnx/ui';
 
 // Home page component for CogNexus.io
 export default function Home() {
@@ -56,35 +57,25 @@ export default function Home() {
           variants={itemVariants}
         >
           {/* Platform Vision Card */}
-          <motion.div 
-            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition"
-            whileHover={{ scale: 1.02 }}
-          >
+          <Card hoverable className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition">
             <h2 className="text-2xl font-semibold mb-4">Platform Vision</h2>
             <p className="mb-6">
               CogNexus ingests drawings, specs, schedules, RFIs, and field recordings; links them with provenance; 
               and delivers cited responses, trends, and foresight.
             </p>
-            <button className="px-5 py-3 rounded-2xl font-medium transition focus:outline-none bg-white/10 text-white hover:bg-white/20">
-              Learn More
-            </button>
-          </motion.div>
+            <Button variant="primary">Learn More</Button>
+          </Card>
           
           {/* Forge Card */}
-          <motion.div 
-            className="rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition"
-            whileHover={{ scale: 1.02 }}
-          >
+          <Card hoverable className="rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition">
             <h2 className="text-2xl font-semibold mb-4">Forge</h2>
             <p className="mb-6">
               Our construction vertical that provides clarity, prevents delays, and builds confidence for field teams.
             </p>
             <Link href="/forge">
-              <button className="px-5 py-3 rounded-2xl font-medium transition focus:outline-none bg-orange-500 text-black hover:bg-orange-400">
-                Explore Forge
-              </button>
+              <Button variant="accent">Explore Forge</Button>
             </Link>
-          </motion.div>
+          </Card>
         </motion.div>
         
         {/* Call to action */}
@@ -92,9 +83,7 @@ export default function Home() {
           <p className="text-lg mb-6">
             Ready to transform how your team makes decisions?
           </p>
-          <button className="px-6 py-3 rounded-2xl font-medium transition focus:outline-none bg-white text-black hover:bg-white/90">
-            Get Started
-          </button>
+          <Button variant="primary">Get Started</Button>
         </motion.div>
       </motion.div>
     </main>

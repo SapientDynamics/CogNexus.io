@@ -1,10 +1,6 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '../components/Navigation';
-
-// Initialize the Inter font with Latin subset
-const inter = Inter({ subsets: ['latin'] });
 
 // Define metadata for the application
 export const metadata: Metadata = {
@@ -20,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans">
         {/* Navigation component */}
         <Navigation />
         
