@@ -17,7 +17,9 @@ export const Footer: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-24 bg-transparent text-neutral-700 border-t border-neutral-200">
+    // Elevate footer above the fixed hero (which uses z-0) so it can receive pointer events.
+    // Using a local stacking context with relative + z-10 prevents the hero from blocking clicks.
+    <footer className="relative z-10 mt-24 bg-transparent text-neutral-700 border-t border-neutral-200">
       {/* Constrain content to the site width and provide generous vertical spacing */}
       <div className="mx-auto max-w-6xl px-6 py-12">
         {/* Top row: 3-column layout (Left: brand/byline, Center: nav, Right: social) */}
@@ -50,13 +52,18 @@ export const Footer: React.FC = () => {
           {/* Primary footer navigation: centered, uppercase, spaced like the reference */}
           <nav
             aria-label="Footer navigation"
-            className="md:col-start-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[12px] tracking-wider uppercase"
+            // Force all links to stay on a single line (no wrapping)
+            className="md:col-start-2 flex flex-nowrap items-center justify-center gap-x-6 sm:gap-x-8 text-[12px] tracking-wider uppercase whitespace-nowrap"
           >
-            <Link href="/#how-it-works" className="hover:text-black transition-colors">How it Works</Link>
-            <Link href="/forge" className="hover:text-black transition-colors">Forge</Link>
-            <Link href="/#trust" className="hover:text-black transition-colors">Trust</Link>
-            {/* Temporarily map About to the founder quote band as in the header */}
+            {/**
+             * Match header navbar order and labels exactly for consistency:
+             * About → How it Works → Platforms → Trust
+             * Use '/#' anchors so links work from any route (footer is global in layout).
+             */}
             <Link href="/#founder-quote" className="hover:text-black transition-colors">About</Link>
+            <Link href="/#how-it-works" className="hover:text-black transition-colors">How it Works</Link>
+            <Link href="/#platforms" className="hover:text-black transition-colors">Platforms</Link>
+            <Link href="/#trust" className="hover:text-black transition-colors">Trust</Link>
           </nav>
 
           {/* Right: Social icons (placeholders), aligned to the right on desktop */}

@@ -29,22 +29,26 @@ export const Navigation: React.FC = () => {
   }, []);
 
   // Navigation links shown in the center of the pill bar
-  // Updated per spec: How it Works, Forge, Trust, About (no Home link)
+  // 2025-08-31: Replace "Forge" with "Platforms" pointing to the new Our Platforms section
+  // Order updated to match on-page section order (top → bottom):
+  // About (founder-quote) → How it Works → Platforms → Trust
   // On home page use section anchors; on other pages link back to home with hashes
   const navLinks = (
     pathname === '/'
       ? [
-          { href: '#how-it-works', label: 'How it Works' },
-          { href: '/forge', label: 'Forge' },
-          { href: '#trust', label: 'Trust' },
           // Temporarily map About to the founder quote band until a dedicated section/page exists
           { href: '#founder-quote', label: 'About' },
+          { href: '#how-it-works', label: 'How it Works' },
+          // Link to the new platforms section on the homepage
+          { href: '#platforms', label: 'Platforms' },
+          { href: '#trust', label: 'Trust' },
         ]
       : [
-          { href: '/#how-it-works', label: 'How it Works' },
-          { href: '/forge', label: 'Forge' },
-          { href: '/#trust', label: 'Trust' },
           { href: '/#founder-quote', label: 'About' },
+          { href: '/#how-it-works', label: 'How it Works' },
+          // Non-home routes: jump back to the platforms section on the homepage
+          { href: '/#platforms', label: 'Platforms' },
+          { href: '/#trust', label: 'Trust' },
         ]
   );
 
@@ -71,7 +75,9 @@ export const Navigation: React.FC = () => {
                   width={140}
                   height={32}
                   priority
-                  className="h-[49px] w-auto"
+                  // Add subtle alpha-aware drop shadow so the PNG shadow follows transparency
+                  // Uses stacked filter shadows in a single arbitrary property for reliability with Tailwind
+                  className="h-[49px] w-auto [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.30))_drop-shadow(0_10px_24px_rgba(0,0,0,0.18))] [will-change:filter]"
                 />
               </Link>
             </div>
@@ -180,7 +186,8 @@ export const Navigation: React.FC = () => {
                 width={120}
                 height={28}
                 priority
-                className="h-[42px] w-auto"
+                // Mirror the desktop logo shadow treatment for visual consistency
+                className="h-[42px] w-auto [filter:drop-shadow(0_1px_1px_rgba(0,0,0,0.30))_drop-shadow(0_10px_24px_rgba(0,0,0,0.18))] [will-change:filter]"
               />
             </Link>
 
