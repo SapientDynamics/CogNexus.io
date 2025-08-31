@@ -102,31 +102,51 @@ export const Navigation: React.FC = () => {
               })}
             </div>
 
-            {/* Right: Primary CTA pinned right (black pill with strong drop shadow, Orb-like) */}
+            {/* Right: CTAs pinned right (Create + Login) */}
             <div className="flex-1 flex items-center justify-end">
-              <Link href="/forge">
-                {/**
-                 * Override base Button styles to match the reference:
-                 * - Black rounded pill with white text
-                 * - Strong soft outer shadow that deepens on hover
-                 * - Subtle press translate and accessible focus ring
-                 */}
-                <Button
-                  variant="ghost"
-                  /* Heavier shadow as the default; tighter, less-blurred shadow on hover */
-                  /* Slightly reduced size for a tighter pill */
-                  className="rounded-xl px-3 py-1.5 text-[14px] !bg-black !text-white
-                             hover:!bg-black focus:!bg-black active:!bg-black
-                             shadow-[0_6px_16px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]
-                             hover:shadow-[0_4px_12px_rgba(0,0,0,0.28),0_2px_6px_rgba(0,0,0,0.18)]
-                             transition-shadow duration-300 ease-out active:translate-y-px
-                             focus-visible:ring-white/60"
-                  /* Inline style guarantees background stays black regardless of theme tokens */
-                  style={{ backgroundColor: '#000' }}
-                >
-                  Enter Your Nexus
-                </Button>
-              </Link>
+              <div className="flex items-center gap-2">
+                {/* Primary CTA */}
+                <Link href="/forge">
+                  {/**
+                   * Override base Button styles to match the reference:
+                   * - Black rounded pill with white text
+                   * - Strong soft outer shadow that deepens on hover
+                   * - Subtle press translate and accessible focus ring
+                   */}
+                  <Button
+                    variant="ghost"
+                    /* Heavier shadow as the default; tighter, less-blurred shadow on hover */
+                    /* Slightly reduced size for a tighter pill */
+                    className="rounded-xl px-3 py-1.5 text-[14px] !bg-black !text-white
+                               hover:!bg-black focus:!bg-black active:!bg-black
+                               shadow-[0_6px_16px_rgba(0,0,0,0.38),0_3px_8px_rgba(0,0,0,0.22)]
+                               hover:shadow-[0_4px_12px_rgba(0,0,0,0.28),_0_2px_6px_rgba(0,0,0,0.18)]
+                               transition-shadow duration-300 ease-out active:translate-y-px
+                               focus-visible:ring-white/60"
+                    /* Inline style guarantees background stays black regardless of theme tokens */
+                    style={{ backgroundColor: '#000' }}
+                  >
+                    {/* Updated copy per request */}
+                    Create Your Nexus
+                  </Button>
+                </Link>
+
+                {/* Login CTA: black with 50% opacity */}
+                <Link href="/login">
+                  <Button
+                    variant="ghost"
+                    className="rounded-xl px-3 py-1.5 text-[14px] !bg-black/50 !text-white
+                               hover:!bg-black/60 focus:!bg-black/60 active:!bg-black/60
+                               shadow-[0_6px_16px_rgba(0,0,0,0.30),0_3px_8px_rgba(0,0,0,0.18)]
+                               hover:shadow-[0_4px_12px_rgba(0,0,0,0.24),_0_2px_6px_rgba(0,0,0,0.16)]
+                               transition-shadow duration-300 ease-out active:translate-y-px
+                               focus-visible:ring-white/50"
+                    /* Use Tailwind alpha for background so text remains fully opaque */
+                  >
+                    Login
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
           {/* Close the relative wrapper */}
@@ -237,7 +257,8 @@ export const Navigation: React.FC = () => {
                                focus-visible:ring-white/60"
                     style={{ backgroundColor: '#000' }}
                   >
-                    Enter Your Nexus
+                    {/* Updated copy per request */}
+                    Create Your Nexus
                   </Button>
                 </Link>
               </div>

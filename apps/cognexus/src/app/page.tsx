@@ -4,6 +4,7 @@ import { motion, MotionConfig } from 'framer-motion';
 import Link from 'next/link';
 import { Button, Card, Chip } from '@cnx/ui';
 import { Reveal } from '../components/Reveal';
+import AnimatedInfinityBackground from '@/components/backgrounds/AnimatedInfinityBackground';
 
 // Home page component for CogNexus.io
 export default function Home() {
@@ -38,57 +39,93 @@ export default function Home() {
     <main>
       {/**
        * HERO SECTION
-       * - Matches Orb hero with a translucent orb + ripple background
-       * - Centralized headline and CTA pair (black + white pills)
+       * - Replaces the old orb/ripple background with AnimatedInfinityBackground
+       * - Keeps centralized headline and CTA pair (black + white pills)
+       * - Maintains full-viewport height and centered content
        */}
-      <section id="hero" className="orb-hero px-6 scroll-mt-24">
-        {/* Background visual effects: central sphere + subtle ripples */}
-        <div className="orb-hero__bg" aria-hidden>
-          <div className="orb-hero__sphere" />
-          <div className="orb-hero__ripples" />
-        </div>
+      <section
+        id="hero"
+        className="relative px-6 scroll-mt-24 min-h-screen flex items-start justify-center overflow-hidden"
+      >
+        {/* Background visual: replacing orb with AnimatedInfinityBackground */}
+        <AnimatedInfinityBackground />
+        {/* Logo and chip moved into the centered content container so the logo sits directly above the headline */}
 
-        {/* Foreground content container (centered) */}
+        {/* Foreground content container (centered). Absolutely center the headline block in the viewport */}
         <motion.div
-          className="relative z-10 max-w-4xl w-full text-center"
+          className="absolute z-10 inset-x-0 top-1/2 -translate-y-1/2 max-w-4xl mx-auto w-full text-center px-6"
           initial="hidden"
           animate="visible"
           variants={containerVariants}
         >
-          {/* Pill tag chip above the title, matching Orb raised chip style via shared Chip */}
-          <motion.div variants={itemVariants}>
-            {/* Human-first positioning chip: signals the guiding principle succinctly */}
-            <Chip leading={<span className="inline-block h-2 w-2 rounded-full bg-black" />}>
-              Human‑First Intelligence
-            </Chip>
-          </motion.div>
+          {/* Removed chip per request */}
 
-          {/* Hero title: minimal, memorable statement that still reflects the credo. */}
+          {/* Logo: now directly above the headline to match requested visual hierarchy */}
+          <motion.img
+            src="/brand/CXCogNexus_crop_trans.png"
+            alt="CogNexus logo"
+            className="block mx-auto h-24 md:h-36 lg:h-[10.5rem] w-auto select-none mb-4"
+            loading="eager"
+            decoding="async"
+            variants={itemVariants}
+          />
+
+          {/* Headline below the logo */}
           <motion.h1
-            className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight text-black"
+            // Make headline ~50% smaller across breakpoints and use dark gray instead of black
+            className="mt-4 text-xl md:text-2xl lg:text-3xl font-semibold md:font-bold tracking-tight text-neutral-800 whitespace-nowrap"
             variants={itemVariants}
           >
-            Human intelligence, connected.
+            Built for brains that build the word
           </motion.h1>
-
-          {/* Supporting copy: extremely concise promise, avoiding hype. */}
-          <motion.p
-            className="mt-5 text-base md:text-lg text-neutral-700 max-w-2xl mx-auto"
-            variants={itemVariants}
-          >
-            Decision‑ready answers from what your teams know.
-          </motion.p>
+          {/* Supporting copy removed per request */}
 
           {/* Primary and secondary calls to action: align to brand language */}
-          <motion.div className="mt-8 flex items-center justify-center gap-3" variants={itemVariants}>
+          <motion.div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3" variants={itemVariants}>
             {/* Primary: black pill button (tokens applied via variant="primary") */}
             <Link href="/forge">
-              {/* Updated CTA copy to reflect login/account entry flow */}
-              <Button variant="primary">Enter Your Nexus</Button>
+              {/* Match reference: solid black pill, white text, semibold font, layered soft shadow */}
+              <Button
+                variant="primary"
+                // Override token variables locally to guarantee exact radius + shadow match
+                // Using Tailwind arbitrary properties to set CSS variables on this instance
+                className="group rounded-[14px] font-semibold !bg-black !text-white [--cnx-btn-radius:14px]
+                           [--cnx-btn-shadow:0_2px_4px_rgba(0,0,0,.25),_0_10px_20px_rgba(0,0,0,.20),_0_30px_60px_rgba(0,0,0,.18)]
+                           [--cnx-btn-shadow-hover:0_3px_6px_rgba(0,0,0,.28),_0_12px_24px_rgba(0,0,0,.22),_0_36px_64px_rgba(0,0,0,.20)]"
+              >
+                {/* Label text updated per request */}
+                <span>Create Your Nexus</span>
+                {/* Trailing arrow icon: up-right external style; hidden from SR to avoid altering spoken label */}
+                <svg
+                  aria-hidden="true"
+                  className="ml-2 h-[18px] w-[18px] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* Arrow Up Right icon */}
+                  <path d="M7 17L17 7" />
+                  <path d="M8 7h9v9" />
+                </svg>
+              </Button>
             </Link>
             {/* Secondary: scroll to Features using hash for smooth scrolling */}
             <Link href="#how-it-works">
-              <Button variant="secondary">See how it works</Button>
+              {/* Match reference: white pill, subtle gray border, semibold font, soft shadow */}
+              <Button
+                variant="secondary"
+                // Match reference radius + soft layered shadow for the white pill
+                className="rounded-[14px] font-semibold !bg-white !text-neutral-900 [--cnx-btn-radius:14px]
+                           border border-[#e9e9e7]
+                           shadow-[0_2px_10px_rgba(0,0,0,.08),0_20px_40px_rgba(0,0,0,.06)]
+                           hover:shadow-[0_3px_12px_rgba(0,0,0,.10),0_24px_48px_rgba(0,0,0,.08)]"
+              >
+                See Why It Works
+              </Button>
             </Link>
           </motion.div>
         </motion.div>
@@ -99,7 +136,8 @@ export default function Home() {
        * - Placed directly under the hero to mirror Orb's testimonial/quote band
        * - Uses large, center-aligned typography and a soft elevated avatar
        */}
-      <section id="founder-quote" className="px-6 py-20 bg-neutral-50/60 scroll-mt-24">
+      {/* About section background: set to solid light gray to match reference screenshot */}
+      <section id="founder-quote" className="px-6 py-20 bg-[#f5f5f5] scroll-mt-24">
         <div className="mx-auto max-w-4xl text-center">
           {/* The quote text with subtle emphasis on key phrases */}
           {/* Reveal the quote as it enters the viewport for a refined, Orb-like scroll animation */}
