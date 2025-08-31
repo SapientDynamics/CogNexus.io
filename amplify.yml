@@ -1,14 +1,12 @@
 version: 1
 applications:
-  # Main CogNexus.io platform app
   - appRoot: apps/cognexus
     frontend:
       phases:
         preBuild:
           commands:
-            - cd ../..
-            - npm install -g pnpm
-            - pnpm install
+            - corepack enable
+            - pnpm install --frozen-lockfile -w
         build:
           commands:
             - pnpm --filter ./apps/cognexus build
@@ -18,18 +16,16 @@ applications:
           - '**/*'
       cache:
         paths:
-          - node_modules/**/*
+          - .pnpm-store/**/*
           - .next/cache/**/*
-    
-  # Forge vertical app
+
   - appRoot: apps/forge
     frontend:
       phases:
         preBuild:
           commands:
-            - cd ../..
-            - npm install -g pnpm
-            - pnpm install
+            - corepack enable
+            - pnpm install --frozen-lockfile -w
         build:
           commands:
             - pnpm --filter ./apps/forge build
@@ -39,12 +35,5 @@ applications:
           - '**/*'
       cache:
         paths:
-          - node_modules/**/*
+          - .pnpm-store/**/*
           - .next/cache/**/*
-
-# This configuration file is used by AWS Amplify to build and deploy the monorepo.
-# It defines separate build configurations for each Next.js app in the monorepo.
-# The preBuild phase installs pnpm and dependencies at the root level.
-# The build phase uses pnpm filtering to build only the specific app.
-# Artifacts are collected from the .next directory of each app.
-# Cache paths are specified to improve build performance.
