@@ -31,9 +31,10 @@ export default function RootLayout({
           {children}
         </div>
 
-        {/* Global footer with brand, nav shortcuts, and attribution to Sapient Dynamics */}
+        {/* Global footer with brand and nav shortcuts (CogNexus standalone branding) */}
         <Footer />
       </body>
     </html>
   );
 }
+

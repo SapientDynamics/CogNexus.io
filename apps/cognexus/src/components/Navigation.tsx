@@ -54,12 +54,12 @@ export const Navigation: React.FC = () => {
 
   return (
     <>
-      {/* Desktop (md+): Full-width translucent glass bar with subtle bottom border */}
-      <nav className="hidden md:block sticky top-0 z-50">
+      {/* Desktop (lg+): Full-width translucent glass bar with subtle bottom border */}
+      <nav className="hidden lg:block sticky top-0 z-50">
         {/* The glass background spans the full width; inner content is centered */}
         <div className="navbar-glass">
           {/* Full-width inner bar: ends pinned to screen edges, center links remain centered */}
-          <div className="px-4 md:px-6 h-16 w-full flex items-center relative">
+          <div className="px-4 lg:px-6 h-16 w-full flex items-center relative">
             {/* Left: Logo pinned left */}
             <div className="flex-1 flex items-center">
               <Link href="/" className="flex items-center whitespace-nowrap" aria-label="Home">
@@ -159,8 +159,8 @@ export const Navigation: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile (<md): Floating pill centered near the top, translucent with blur */}
-      <nav className="md:hidden fixed top-4 inset-x-0 z-50 flex justify-center">
+      {/* Mobile (<lg): Floating pill centered near the top, translucent with blur */}
+      <nav className="lg:hidden fixed top-4 inset-x-0 z-50 flex justify-center">
         {/* Wrapper ensures the dropdown can anchor below the pill via absolute top-full */}
         <div className="relative w-full max-w-[calc(100%-2rem)]">
           {/* Slightly tighter horizontal padding, a bit taller for touch targets; respect iOS safe areas */}

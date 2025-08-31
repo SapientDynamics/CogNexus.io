@@ -157,9 +157,12 @@ export default function Home() {
                                        leading-[1.35] tracking-tight text-neutral-700 [text-wrap:balance]">
               {/* Match reference-like rhythm with intentional line breaks using block spans */}
               {/* 2025-08-31: Updated quote per request */}
-              <span className="block">&ldquo;Individual brilliance built the past.</span>
-              <span className="block">Collective intelligence is building the future.</span>
-              <span className="block">This is CogNexus&rdquo;</span>
+              {/* Emphasize select words for visual interest without overwhelming the quote (2025-08-31) */}
+              <span className="block">&ldquo;Individual <span className="font-semibold text-neutral-900">brilliance</span> built the <span className="font-semibold text-neutral-900">past</span>.</span>
+              {/* Keep this line slightly darker; add emphasis to the key concept and destination */}
+              <span className="block text-neutral-800"><span className="font-semibold text-neutral-900">Collective intelligence</span> is building the <span className="font-semibold text-neutral-900">future</span>.</span>
+              {/* Brand name gets subtle identity emphasis via gradient clipped to text */}
+              <span className="block">This is <span className="font-semibold bg-gradient-to-b from-neutral-800 to-black text-transparent bg-clip-text">CogNexus</span>&rdquo;</span>
             </blockquote>
           </Reveal>
 

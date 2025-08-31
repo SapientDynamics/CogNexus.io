@@ -9,7 +9,7 @@ import Image from 'next/image';
  * Design goals:
  * - Keep the black/white brand aesthetic (no blues).
  * - Include the CogNexus logo and primary nav shortcuts.
- * - Clearly attribute that CogNexus is by Sapient Dynamics with an external link.
+ * - Present CogNexus as a standalone brand (no parent-company attribution).
  * - Provide placeholders for legal links (Terms, Privacy) for future wiring.
  */
 export const Footer: React.FC = () => {
@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
       <div className="mx-auto max-w-6xl px-6 py-12">
         {/* Top row: 3-column layout (Left: brand/byline, Center: nav, Right: social) */}
         <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:items-center">
-          {/* Brand mark with inline attribution: "CogNexus by Sapient Dynamics" */}
+          {/* Brand mark (standalone CogNexus) */}
           <div className="flex items-center gap-2">
             {/* Logo links to home */}
             <Link href="/" className="flex items-center" aria-label="Home">
@@ -37,16 +37,6 @@ export const Footer: React.FC = () => {
                 priority
               />
             </Link>
-            {/* Inline attribution following the logo */}
-            <span className="text-sm text-neutral-500">by</span>
-            <a
-              href="https://www.sapientdynamics.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-neutral-800 hover:text-black underline decoration-neutral-300 hover:decoration-neutral-600 underline-offset-4"
-            >
-              Sapient Dynamics
-            </a>
           </div>
 
           {/* Primary footer navigation: centered, uppercase, spaced like the reference */}
@@ -93,7 +83,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom row: centered copyright with subtle text + legal (optional) */}
         <div className="mt-6 flex flex-col items-center gap-3 text-[12px] text-neutral-500">
-          <p className="text-center">© {year} Sapient Dynamics, Inc. All rights reserved.</p>
+          <p className="text-center">© {year} CogNexus Technologies Inc. All rights reserved.</p>
           <div className="flex items-center gap-4">
             {/* Placeholder legal links; wire real routes when available */}
             <Link href="#" className="hover:text-black transition-colors">Privacy</Link>
@@ -105,3 +95,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
