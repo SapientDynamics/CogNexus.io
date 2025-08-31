@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orb-Style Raised Cards – Mockup</title>
+  <style>
+    :root {
+      --base: #0b0e13;              /* Orb dark base */
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --stroke: rgba(255, 255, 255, 0.12);
+      --text: #e6e9f0;
+      --muted: #a6adbb;
+      --accent-1: #7c5cff;
+      --accent-2: #00d4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(1000px 600px at 10% -10%, rgba(124,92,255,0.15), transparent 60%),
+        radial-gradient(900px 700px at 110% 10%, rgba(0,212,255,0.15), transparent 60%),
+        var(--base);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 60px 24px 32px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    p.subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    /* Floating Orbs */
+    .orbs { position: fixed; inset: 0; pointer-events:none; z-index:0; filter: blur(60px) saturate(120%); }
+    .orb {
+      position: absolute; border-radius: 50%; opacity: 0.18; mix-blend-mode: screen;
+      background: radial-gradient(circle at 30% 30%, rgba(124,92,255,0.9), rgba(0,212,255,0.6) 60%, transparent 80%);
+      animation: float 18s ease-in-out infinite;
+    }
+    .orb:nth-child(1){width:420px;height:420px;left:-10%;top:-10%;}
+    .orb:nth-child(2){width:520px;height:520px;right:-10%;top:-5%;animation-duration:24s;}
+    .orb:nth-child(3){width:360px;height:360px;left:20%;bottom:-10%;animation-duration:20s;}
+    @keyframes float { 0%,100%{ transform: translateY(-10px);} 50%{ transform: translateY(10px);} }
+
+    /* Container + Grid */
+    .container {
+      width: min(1200px, 90vw);
+      margin: 0 auto 60px;
+      position: relative;
+      z-index: 1;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    /* Orb glass card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 60px rgba(0,0,0,0.55);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .card p { margin: 0; color: var(--muted); line-height: 1.6; }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 20px;
+      border: 1px solid var(--stroke);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      transition: transform 120ms ease, box-shadow 150ms ease, border-color 150ms ease;
+      position: relative;
+    }
+    .btn--gradient::after{
+      content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+    }
+    .btn:hover { border-color: rgba(255,255,255,0.25); }
+    .btn:active { transform: translateY(1px); }
+
+    /* Hero card */
+    .card--hero {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .card--hero h2 {
+      margin: 0 0 16px;
+      font-size: clamp(28px, 4vw, 50px);
+      font-weight: 800;
+    }
+    .stack { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+    /* Image card */
+    .card--image { padding: 0; overflow: hidden; }
+    .card--image img { display: block; width: 100%; height: auto; border-top-left-radius: 20px; border-top-right-radius: 20px; }
+    .card--image .inner { padding: 22px; }
+
+    footer { text-align: center; padding: 24px; font-size: 14px; color: var(--muted); position: relative; z-index:1; }
+  </style>
+</head>
+<body>
+  <div class="orbs">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <header>
+    <h1>Unified Intelligence for Construction</h1>
+    <p class="subtitle">Orb-style mockup of raised cards using your neumorphic base.</p>
+  </header>
+
+  <div class="container">
+    <section class="cards">
+      <article class="card card--hero">
+        <h2>Forge Your Knowledge</h2>
+        <p>CogNexus takes what you already know and turns it into connected intelligence you can act on.</p>
+        <div class="stack">
+          <button class="btn btn--gradient">Enter Forge</button>
+          <button class="btn">Request Access</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Specs & Drawings Q&A</h3>
+        <p>Ask natural questions against your actual project documents. Get citations, not guesses.</p>
+      </article>
+
+      <article class="card card--image">
+        <img src="https://images.unsplash.com/photo-1528017486010-83b1d0a43a3e?q=80&w=1200&auto=format&fit=crop" alt="Construction site"/>
+        <div class="inner">
+          <h3>T&amp;M Tracking</h3>
+          <p>Log labor, materials, and photos from the field. AI helps with totals and compliance notes.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Lessons Learned</h3>
+        <p>Capture fixes, vendor quirks, and sequencing tricks so future teams don’t step on the same rake twice.</p>
+      </article>
+
+      <article class="card">
+        <h3>Pull Planning</h3>
+        <p>Spot blockers early, adjust trades, and forecast deliveries without spreadsheet acrobatics.</p>
+      </article>
+    </section>
+  </div>
+
+  <footer>
+    Inspired by Orb AI theme. Adjust blur and shadows to refine depth.
+  </footer>
+</body>
+</html>

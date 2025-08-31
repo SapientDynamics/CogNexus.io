@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CogNexus • Forge – Orb Light Mockup</title>
+  <!-- Satoshi (Fontshare) -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Orb-ish light tokens (from DevTools) */
+      --bg: #f5f5f5;
+      --surface: #ffffff;
+      --surface-alt: #f5f5f5;
+      --ink: #16101e;          /* heading color seen in Orb */
+      --text: #111111;
+      --muted: #555555;
+      --hair: rgba(17,17,17,0.05);
+      --shadow-weak: rgba(0,0,0,0.03);
+      --shadow-mid: rgba(0,0,0,0.08);
+      --shadow-strong: rgba(0,0,0,0.12);
+      --highlight: rgba(255,255,255,0.6);
+      --radius-card: 20px;
+    }
+    *,*::before,*::after{ box-sizing: border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; background: var(--bg); color: var(--text);
+      font-family: 'Satoshi', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
+      font-weight: 400; line-height: 1.6;
+    }
+
+    /* Layout */
+    .container{ width:min(1200px, 92vw); margin-inline:auto }
+    header.site{ position:sticky; top:0; z-index:40; backdrop-filter: blur(8px); }
+    .nav{ display:flex; gap:18px; align-items:center; justify-content:space-between; padding:14px 0 }
+    .brand{ display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:-0.02em }
+    .brand .mark{ width:36px; height:36px; border-radius:12px; background:var(--surface); display:grid; place-items:center; border:1px solid var(--hair); box-shadow: 0 1px 3px var(--shadow-mid), 0 6px 16px var(--shadow-weak), inset 0 1px 0 var(--highlight); }
+    .nav a{ text-decoration:none; color:#222; font-weight:500 }
+    .cta{ padding:10px 14px; border-radius:999px; border:1px solid var(--hair); background:var(--surface); box-shadow: 0 1px 3px var(--shadow-mid), 0 6px 16px var(--shadow-weak), inset 0 1px 0 var(--highlight); }
+
+    /* Hero */
+    .hero{ padding:72px 0 36px }
+    .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:#111; padding:8px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--hair); box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.07), inset 0 1px 0 var(--highlight); }
+    h1{ margin:10px 0 8px; font-size: clamp(32px, 6vw, 64px); line-height:1.2; letter-spacing:-0.01em; color:var(--ink); font-weight:700 }
+    .lead{ margin:0; color:var(--muted); font-size:18px }
+
+    /* Cards grid */
+    .grid{ display:grid; grid-template-columns: repeat(12,1fr); gap:28px; margin:36px 0 18px }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(6,1fr) } }
+    @media (max-width: 680px){ .grid{ grid-template-columns: repeat(4,1fr) } }
+
+    .card{ grid-column: span 6; background:var(--surface); border-radius:var(--radius-card); padding:28px; border:1px solid var(--hair);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.07), inset 0 1px 0 var(--highlight);
+      transition: transform .2s ease, box-shadow .2s ease; position:relative; overflow:hidden }
+    .card:hover{ transform: translateY(-3px); box-shadow: 0 2px 6px rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.12), inset 0 1px 0 var(--highlight) }
+    .card h3{ margin:8px 0 4px; font-weight:700; font-size:20px; letter-spacing:-0.01em; color:var(--ink) }
+    .card p{ margin:0; color:var(--muted) }
+
+    /* Icon disk */
+    .disk{ width:92px; height:92px; border-radius:50%; background:var(--surface); border:1px solid var(--hair); box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 6px 14px rgba(0,0,0,0.07), inset 0 1px 0 var(--highlight); display:grid; place-items:center; margin-bottom:12px }
+    .icon{ width:34px; height:34px; color:#111 }
+
+    /* Bar chart atoms */
+    .bars{ display:flex; align-items:flex-end; gap:16px; height:110px; margin: 4px 0 14px }
+    .bar{ width:40px; border-radius:12px; background:var(--surface); border:1px solid var(--hair); box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.07), inset 0 1px 0 var(--highlight) }
+    .bar:nth-child(1){ height:70% } .bar:nth-child(2){ height:92% } .bar:nth-child(3){ height:56% } .bar:nth-child(4){ height:68% }
+
+    /* Pills row */
+    .pills{ display:flex; flex-wrap:wrap; gap:14px; margin: 28px 0 12px }
+    .pill{ display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:999px; background:var(--surface); border:1px solid var(--hair); box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.07), inset 0 1px 0 var(--highlight); font-size:14px; color:#111 }
+    .pill .svg{ width:18px; height:18px }
+
+    /* Footer */
+    footer{ padding:36px 0 60px; color:#6b7280; font-size:14px }
+  </style>
+</head>
+<body>
+  <!-- Inline SVG symbol sprite (sleek Lucide-style paths) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute; width:0; height:0; overflow:hidden">
+    <symbol id="i-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </symbol>
+    <symbol id="i-bar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" y1="21" x2="4" y2="14"/><line x1="10" y1="21" x2="10" y2="10"/><line x1="16" y1="21" x2="16" y2="6"/><line x1="22" y1="21" x2="22" y2="3"/>
+    </symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8L12 3z"/>
+      <path d="M5 19l.9 2 .9-2L9 18l-2.2-.9L6 15l-.9 2.1L3 18l2 .9z"/>
+    </symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 20 7 12 12 4 7 12 2"/>
+      <polyline points="2 17 12 22 22 17"/>
+      <polyline points="2 12 12 17 22 12"/>
+    </symbol>
+  </svg>
+
+  <header class="site">
+    <div class="container nav">
+      <div class="brand">
+        <div class="mark"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 4 17 12 8 20"/><polyline points="3 4 12 12 3 20"/></svg></div>
+        CogNexus • Forge
+      </div>
+      <nav style="display:flex; gap:14px; align-items:center">
+        <a href="#features">Features</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#contact" class="cta">Request Access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow"><svg class="svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-sparkle"/></svg> Unified Intelligence for Construction</span>
+        <h1>Forge your project knowledge into connected intelligence</h1>
+        <p class="lead">Spec & Drawing Q&A, T&M tracking, Meeting Agents, and Lessons Learned — all with citations, not guesses.</p>
+      </div>
+    </section>
+
+    <section id="benefits" class="container">
+      <div class="grid">
+        <!-- Card A -->
+        <article class="card">
+          <div class="disk"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-activity"/></svg></div>
+          <h3>Real‑Time Analytics</h3>
+          <p>Stay ahead with accurate, real‑time performance tracking.
+          </p>
+        </article>
+
+        <!-- Card B -->
+        <article class="card">
+          <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+          <h3>AI‑Driven Growth</h3>
+          <p>Make smarter moves with accurate, real‑time business insights.</p>
+        </article>
+
+        <!-- Card C (wide) -->
+        <article class="card" style="grid-column: span 12; display:grid; grid-template-columns: 1fr auto; align-items:center; gap:20px">
+          <div>
+            <h3>Sync in real time</h3>
+            <p>Connect with your team instantly to track progress and updates.</p>
+          </div>
+          <div class="disk" style="margin:0"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 4 17 12 8 20"/><polyline points="3 4 12 12 3 20"/></svg></div>
+        </article>
+      </div>
+
+      <div class="pills">
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-activity"/></svg> Time Insights</span>
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-zap"/></svg> Automation</span>
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-bar"/></svg> Data‑Driven Decisions</span>
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-sparkle"/></svg> Faster Innovation</span>
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-users"/></svg> Virtual Assistance</span>
+        <span class="pill"><svg class="svg" viewBox="0 0 24 24"><use href="#i-layers"/></svg> Scalable</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© CogNexus • Forge. Design mockup for implementation hand‑off.</div>
+  </footer>
+</body>
+</html>

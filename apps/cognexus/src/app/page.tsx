@@ -171,9 +171,10 @@ export default function Home() {
             <blockquote className="mx-auto max-w-[60ch] text-[22px] md:text-[34px] lg:text-[40px] font-medium
                                        leading-[1.35] tracking-tight text-neutral-700 [text-wrap:balance]">
               {/* Match reference-like rhythm with intentional line breaks using block spans */}
-              <span className="block">&ldquo;Artificial minds won’t decide the future.</span>
-              <span className="block"><span className="font-semibold text-neutral-800">AI Re-Engineered human intelligence</span> will.</span>
-              <span className="block">That’s why <span className="font-semibold text-neutral-800">we built CogNexus</span>.&rdquo;</span>
+              {/* 2025-08-31: Updated quote per request */}
+              <span className="block">&ldquo;Individual brilliance built the past.</span>
+              <span className="block">Collective intelligence is building the future.</span>
+              <span className="block">This is CogNexus&rdquo;</span>
             </blockquote>
           </Reveal>
 
@@ -182,12 +183,12 @@ export default function Home() {
             <div className="relative mt-10 flex flex-col items-center gap-3">
               {/* Soft radial glow behind the avatar to match the reference's subtle focal halo.
                   Scale the halo up to match the larger avatar size. */}
-              <span aria-hidden className="pointer-events-none absolute top-1 h-28 w-28 md:h-36 md:w-36 -z-10 rounded-full
+              <span aria-hidden className="pointer-events-none absolute top-1 h-36 w-36 md:h-48 md:w-48 -z-10 rounded-full
                                          bg-[radial-gradient(closest-side,rgba(0,0,0,0.08),rgba(0,0,0,0)_70%)]" />
               {/* Avatar orb (CEO photo): increase size for better visual balance with the quote.
                   Uses responsive sizing so it remains proportional across breakpoints. */}
               <div
-                className="h-12 w-12 md:h-14 md:w-14 rounded-full ring-4 ring-white bg-center bg-cover
+                className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 rounded-full ring-4 ring-white bg-center bg-cover
                            shadow-[0_2px_8px_rgba(0,0,0,0.10),_0_14px_28px_rgba(0,0,0,0.08)] mb-[30px]"
                 /* Use multiple backgrounds: first existing image wins, then a linear-gradient as visual fallback */
                 /* Add an extra 30px of space below the avatar per request (2025-08-31) */
