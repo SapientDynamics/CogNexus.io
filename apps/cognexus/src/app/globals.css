@@ -3,63 +3,78 @@
 @tailwind utilities;
 
 :root {
-  /* Light theme foreground/background for Orb-like UI */
+  /*
+   * Neumorphic raised theme tokens (CogNexus mockup alignment)
+   * These variables are consumed by shared UI components (e.g., Card) and sections.
+   * We avoid touching the navbar styles per request and only adjust global surfaces and elevations.
+   */
+  /* Foreground/base background (kept for backwards-compat references) */
   --foreground-rgb: 17, 17, 17;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 245, 245, 245; /* #f5f5f5 */
+  --background-end-rgb: 245, 245, 245;   /* #f5f5f5 */
 
-  /* Theme tokens (scaffold) */
-  /* Font family for sans text across the site */
-  --cnx-font-sans: sans-serif;
+  /* Design tokens derived from the mockup */
+  --cnx-font-sans: sans-serif; /* keep current site font stack */
+  --cnx-bg: #f5f5f5;           /* page background */
+  --cnx-surface: #ffffff;      /* card/chip surface */
+  --cnx-ink: #16101e;          /* heading ink color */
+  --cnx-text: #111111;         /* body text */
+  --cnx-muted: #555555;        /* muted copy */
+  --cnx-hair: rgba(17,17,17,0.05); /* hairline borders */
+  --cnx-highlight: rgba(255,255,255,0.6); /* subtle top-light for inset highlight */
+  --cnx-shadow-weak: rgba(0,0,0,0.03);
+  --cnx-shadow-mid: rgba(0,0,0,0.08);
+  --cnx-shadow-strong: rgba(0,0,0,0.12);
 
-  /* Button tokens approximating Orb primary CTA (black pill) */
-  --cnx-btn-font-size: 16px;
-  --cnx-btn-padding-y: 12px;
-  --cnx-btn-padding-x: 20px;
-  --cnx-btn-radius: 9999px; /* pill */
-  --cnx-btn-text: #ffffff;
-  --cnx-btn-bg: #0a0a0a; /* deep black */
-  /* Soft, layered drop shadow to emulate Orb's lifted black CTA */
-  --cnx-btn-shadow:
-    0 1px 1px rgba(0,0,0,0.30), /* tight contact shadow */
-    0 10px 12px rgba(0,0,0,0.22), /* primary soft shadow */
-    0 28px 40px rgba(0,0,0,0.20); /* long falloff */
-  /* Hover tokens */
-  --cnx-btn-text-hover: #ffffff;
-  --cnx-btn-bg-hover: #141414; /* slightly lighter on hover */
-  --cnx-btn-shadow-hover:
-    0 2px 2px rgba(0,0,0,0.32),
-    0 12px 16px rgba(0,0,0,0.24),
-    0 36px 52px rgba(0,0,0,0.22);
-
-  /* Focus ring + motion tokens */
+  /* Focus ring + motion (unchanged) */
   --cnx-focus-ring: rgba(0, 0, 0, 0.5);
   --cnx-transition: all;
   --cnx-duration: 220ms;
   --cnx-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Card tokens to match Orb cards */
-  --cnx-card-radius: 22px;
-  --cnx-card-border: rgba(0,0,0,0.08);
-  --cnx-card-bg: #ffffff;
-  --cnx-card-shadow:
-    0 1px 1px rgba(0,0,0,.05),
-    0 8px 16px rgba(0,0,0,.06),
-    0 24px 48px rgba(0,0,0,.05);
-  /* Stronger elevation used by Card variant="raised" */
-  --cnx-card-shadow-raised:
-    0 2px 4px rgba(0,0,0,.06),
-    0 10px 20px rgba(0,0,0,.08),
-    0 28px 56px rgba(0,0,0,.07),
-    0 48px 96px rgba(0,0,0,.05);
+  /* Primary CTA pill (non-navbar buttons). 2025-08-31: Match mockup
+   * - Smaller 14px radius (not fully pill) for stronger presence
+   * - Heavier layered shadows on default + hover
+   */
+  --cnx-btn-font-size: 16px;
+  --cnx-btn-padding-y: 12px;
+  --cnx-btn-padding-x: 20px;
+  --cnx-btn-radius: 14px;
+  --cnx-btn-text: #ffffff;
+  --cnx-btn-bg: #0a0a0a;
+  --cnx-btn-shadow:
+    0 12px 28px rgba(0,0,0,.58),
+    0 32px 64px rgba(0,0,0,.40),
+    0 96px 160px rgba(0,0,0,.32);
+  --cnx-btn-text-hover: #ffffff;
+  --cnx-btn-bg-hover: #141414;
+  --cnx-btn-shadow-hover:
+    0 16px 36px rgba(0,0,0,.62),
+    0 44px 88px rgba(0,0,0,.44),
+    0 120px 200px rgba(0,0,0,.34);
 
-  /* Chip/Tag tokens (Orb-like raised pill chips) */
-  --cnx-chip-radius: 9999px; /* pill */
-  --cnx-chip-bg: rgba(255,255,255,0.95);
-  --cnx-chip-border: rgba(0,0,0,0.08);
-  --cnx-chip-shadow:
+  /* Card tokens: radius, border, background, and raised shadows (with inset highlight) */
+  --cnx-card-radius: 20px; /* mockup: 20px */
+  --cnx-card-border: var(--cnx-hair);
+  --cnx-card-bg: var(--cnx-surface);
+  --cnx-card-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 4px 12px rgba(0,0,0,0.07),
+    inset 0 1px 0 var(--cnx-highlight);
+  /* Stronger elevation for raised cards */
+  --cnx-card-shadow-raised:
     0 2px 6px rgba(0,0,0,0.08),
-    0 8px 16px rgba(0,0,0,0.06);
+    0 8px 20px rgba(0,0,0,0.12),
+    inset 0 1px 0 var(--cnx-highlight);
+
+  /* Chip/Tag tokens to mirror pill styling in mockup */
+  --cnx-chip-radius: 9999px;
+  --cnx-chip-bg: var(--cnx-surface);
+  --cnx-chip-border: var(--cnx-hair);
+  --cnx-chip-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 4px 12px rgba(0,0,0,0.07),
+    inset 0 1px 0 var(--cnx-highlight);
 }
 
 /* Let Lenis manage smooth scrolling to avoid conflicts. */
@@ -70,13 +85,13 @@ html {
 body {
   color: rgb(var(--foreground-rgb));
   font-family: var(--cnx-font-sans);
-  /* Light background */
+  /* Update to mockup background color (soft grey) */
   background: linear-gradient(
       to bottom,
       rgb(var(--background-start-rgb)),
       rgb(var(--background-end-rgb))
     ) fixed;
-  background-color: #ffffff; /* ensures white base */
+  background-color: var(--cnx-bg);
 }
 
 /* Floating navbar pill container (centered, blurred, soft shadow) */

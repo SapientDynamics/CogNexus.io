@@ -90,14 +90,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const variantClasses = {
       // Primary is our main CTA; tokens will override its colors/shadow to match the theme.
       primary: 'bg-black text-white hover:bg-neutral-900 focus:ring-black/40',
-      // Secondary is a white pill with a subtle border + soft shadow (Orb-like).
+      // Secondary matches mockup: white surface, subtle gray border, soft layered shadow, hover lift.
       // We intentionally do NOT apply token overrides to secondary so it can remain white
       // even if the primary tokens change. This yields the black/white CTA pair.
       secondary: [
-        'bg-white text-black',
-        'border border-black/10',
-        // Soft layered shadow approximating Orb secondary buttons
-        'shadow-[0_1px_1px_rgba(0,0,0,.06),0_6px_12px_rgba(0,0,0,.06)]',
+        'bg-white text-neutral-900',
+        'border border-[#e9e9e7]',
+        // Layered soft shadow to echo mockup buttons (non-inset for clean white surface)
+        'shadow-[0_6px_18px_rgba(0,0,0,.12),_0_28px_56px_rgba(0,0,0,.10),_0_1px_0_rgba(0,0,0,.04)]',
+        'hover:shadow-[0_12px_28px_rgba(0,0,0,.14),_0_36px_72px_rgba(0,0,0,.12)]',
         'hover:bg-neutral-100',
         'focus:ring-black/40'
       ].join(' '),

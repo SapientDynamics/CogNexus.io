@@ -54,6 +54,8 @@ export default function AnimatedInfinityBackground({
   // New: start the animation as if this many REAL seconds have already elapsed.
   // Example: startAtSeconds=8 will jump to the visual state you'd see ~8s after load.
   startAtSeconds = 0,
+  // New: optional soft center glow; default off to avoid visible white disc behind hero
+  centerGlow = false,
 }: {
   className?: string;
   lineColor?: string;
@@ -77,6 +79,8 @@ export default function AnimatedInfinityBackground({
   shapeHold?: number;
   /** Initialize the internal time as if this many REAL seconds have passed */
   startAtSeconds?: number;
+  /** Toggle a subtle white radial center glow. Defaults to false to match flat hero background. */
+  centerGlow?: boolean;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   // Initialize time with a real-seconds offset converted into our internal units.
@@ -235,10 +239,14 @@ export default function AnimatedInfinityBackground({
           </mask>
         </defs>
 
-        <rect width="100%" height="100%" fill="#ffffff" />
+        {/* Match the site body background; use CSS variable so theme updates propagate here */}
+        <rect width="100%" height="100%" style={{ fill: 'var(--cnx-bg)' }} />
 
         <g mask="url(#edgeMask)">
-          <circle cx={vb.cx} cy={vb.cy} r={vb.w * 0.22} fill="url(#fade)" />
+          {/* Optional soft center glow; disabled by default via centerGlow=false */}
+          {centerGlow && (
+            <circle cx={vb.cx} cy={vb.cy} r={vb.w * 0.22} fill="url(#fade)" />
+          )}
 
           {layers.map(({ d }, idx) => (
             <path

@@ -95,19 +95,10 @@ export default function Home() {
           <motion.div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3" variants={itemVariants}>
             {/* Primary: black pill button (tokens applied via variant="primary") */}
             <Link href="/forge">
-              {/* Match reference: solid black pill, white text, semibold font, layered soft shadow */}
+              {/* Use primary variant; global tokens provide black surface, 14px radius, and layered shadows */}
               <Button
                 variant="primary"
-                // Override token variables locally to guarantee exact radius + shadow match
-                // Using Tailwind arbitrary properties to set CSS variables on this instance
-                className="group rounded-[14px] font-semibold !bg-black !text-white [--cnx-btn-radius:14px]
-                           /* Heavier shadows are supplied via CSS variables using inline style for reliability */
-                           transition-shadow duration-300 ease-out active:translate-y-px"
-                /* Provide heavier shadows via token vars so hover still works */
-                style={{
-                  ['--cnx-btn-shadow' as any]: '0 12px 28px rgba(0,0,0,.58), 0 32px 64px rgba(0,0,0,.40), 0 96px 160px rgba(0,0,0,.32)',
-                  ['--cnx-btn-shadow-hover' as any]: '0 16px 36px rgba(0,0,0,.62), 0 44px 88px rgba(0,0,0,.44), 0 120px 200px rgba(0,0,0,.34)'
-                }}
+                className="group font-semibold"
               >
                 {/* Label text updated per request */}
                 <span>Create Your Nexus</span>
@@ -131,16 +122,10 @@ export default function Home() {
             </Link>
             {/* Secondary: scroll to Features using hash for smooth scrolling */}
             <Link href="#how-it-works">
-              {/* Match reference: white pill, subtle gray border, semibold font, soft shadow */}
+              {/* Use secondary variant; global base + variant styles provide white surface, border, and soft shadows */}
               <Button
                 variant="secondary"
-                // Match reference radius + soft layered shadow for the white pill
-                className="rounded-[14px] font-semibold !bg-white !text-neutral-900 [--cnx-btn-radius:14px]
-                           border border-[#e9e9e7]
-                           /* Heavier, wider soft shadow while keeping a clean white surface */
-                           shadow-[0_6px_18px_rgba(0,0,0,.12),_0_28px_56px_rgba(0,0,0,.10),_0_1px_0_rgba(0,0,0,.04)]
-                           hover:shadow-[0_12px_28px_rgba(0,0,0,.14),_0_36px_72px_rgba(0,0,0,.12)]
-                           transition-shadow duration-300 ease-out active:translate-y-px"
+                className="font-semibold"
               >
                 See How It Works
               </Button>
@@ -246,13 +231,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative rounded-[18px] border transition-shadow duration-300
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)] /* Further reduced base (2025-08-31) */
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)] /* Slightly above base, still subtle */
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)] /* Softer hover after reduction */">
+                className="relative transition-shadow duration-300">
                 {/* Embossed icon orb (decorative) to echo reference visuals. */}
                 <div className="mb-5">
                   <div className="h-14 w-14 rounded-full bg-white border border-[#ececec]
@@ -273,13 +252,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative rounded-[18px] border transition-shadow duration-300
-                           [--cnx-card-bg:#ffffff] /* Match section bg */
-                           [--cnx-card-border:#e9e9e7] /* Soft border like reference */
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)] /* Further reduced base (2025-08-31) */
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)] /* Slightly above base, still subtle */
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)] /* Softer hover after reduction */">
+                className="relative transition-shadow duration-300">
                 <div className="mb-5">
                   <div className="h-14 w-14 rounded-full bg-white border border-[#ececec]
                                   shadow-[0_1px_0_rgba(255,255,255,.85)_inset,0_8px_18px_rgba(0,0,0,.10),_0_1px_0_rgba(0,0,0,.04)] grid place-items-center">
@@ -299,13 +272,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative rounded-[18px] border transition-shadow duration-300
-                           [--cnx-card-bg:#ffffff] /* Match section bg (lightened to white 2025-08-31) */
-                           [--cnx-card-border:#e9e9e7] /* Soft border like reference */
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)] /* Further reduced base (2025-08-31) */
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)] /* Slightly above base, still subtle */
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)] /* Softer hover after reduction */">
+                className="relative transition-shadow duration-300">
                 <div className="mb-5">
                   <div className="h-14 w-14 rounded-full bg-white border border-[#ececec]
                                   shadow-[0_1px_0_rgba(255,255,255,.85)_inset,0_8px_18px_rgba(0,0,0,.10),_0_1px_0_rgba(0,0,0,.04)] grid place-items-center">
@@ -351,13 +318,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative w-full h-full rounded-[18px] border cursor-pointer transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative w-full h-full cursor-pointer transition-all duration-300 hover:-translate-y-0.5">
                 {/* Step 1 copy updated to "Codify" (2025-08-31) */}
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">1) Codify</h3>
@@ -369,13 +330,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative h-full rounded-[18px] border transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative h-full cursor-pointer transition-all duration-300 hover:-translate-y-0.5">
                 {/* Step 2 copy updated to "Connect" (2025-08-31) */}
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">2) Connect</h3>
@@ -387,13 +342,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative h-full rounded-[18px] border transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative h-full cursor-pointer transition-all duration-300 hover:-translate-y-0.5">
                 {/* Step 3 copy updated to "Decide & Operate" (2025-08-31) */}
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">3) Decide &amp; Operate</h3>
@@ -448,13 +397,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative w-full h-full rounded-[18px] border transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative w-full h-full transition-all duration-300 hover:-translate-y-0.5">
                 {/* Decorative top accent bar to draw attention without breaking the white aesthetic */}
                 <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-[linear-gradient(90deg,rgba(0,0,0,0)_0%,rgba(0,0,0,.12)_30%,rgba(0,0,0,.12)_70%,rgba(0,0,0,0)_100%)]" />
 
@@ -549,13 +492,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="relative w-full h-full rounded-[18px] border transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative w-full h-full transition-all duration-300 hover:-translate-y-0.5">
                 <div className="p-6 md:p-7">
                   {/* De-emphasized placeholder with an explicit Coming soon pill */}
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">
@@ -572,18 +509,12 @@ export default function Home() {
               </Card>
             </Reveal>
 
-            {/* Placeholder platform card B */}
+            {/* Placeholder platform card B — uses global neumorphic card tokens; per-card overrides removed */}
             <Reveal delay={0.35} direction="right" distance={20}>
               <Card
                 hoverable
                 variant="raised"
-                className="relative w-full h-full rounded-[18px] border transition-all duration-300 hover:-translate-y-0.5
-                           [--cnx-card-bg:#ffffff]
-                           [--cnx-card-border:#e9e9e7]
-                           [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]
-                           hover:[--cnx-card-shadow-raised:0_6px_16px_rgba(0,0,0,.09),_0_20px_36px_rgba(0,0,0,.07)]">
+                className="relative w-full h-full transition-all duration-300 hover:-translate-y-0.5">
                 <div className="p-6 md:p-7">
                   {/* De-emphasized placeholder with an explicit Coming soon pill */}
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">
@@ -629,9 +560,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">Privacy-first</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">Your data. Your rules.</p>
@@ -649,9 +578,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">Provenance &amp; Audit</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">Answers with receipts.</p>
@@ -669,9 +596,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">Enterprise-ready</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">Built for security-critical teams.</p>
@@ -689,9 +614,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">No Training on Your Data</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">We don’t learn from your data. We answer with it.</p>
@@ -709,9 +632,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">Encryption &amp; Key Management</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">Locked in transit and at rest.</p>
@@ -729,9 +650,7 @@ export default function Home() {
               <Card
                 hoverable
                 variant="raised"
-                className="rounded-[18px] border [--cnx-card-bg:#ffffff] [--cnx-card-border:#e9e9e7] [--cnx-card-radius:18px]
-                           [--cnx-card-shadow:0_3px_10px_rgba(0,0,0,.07),_0_12px_24px_rgba(0,0,0,.05),_0_1px_0_rgba(0,0,0,.02)]
-                           [--cnx-card-shadow-raised:0_5px_14px_rgba(0,0,0,.08),_0_18px_32px_rgba(0,0,0,.06),_0_1px_0_rgba(0,0,0,.02)]">
+                className="transition-shadow duration-300">
                 <div className="p-6 md:p-7">
                   <h3 className="text-lg md:text-xl font-semibold tracking-tight">Data Ownership &amp; Portability</h3>
                   <p className="mt-2 text-sm md:text-base text-neutral-800">You own it. You can take it with you.</p>
