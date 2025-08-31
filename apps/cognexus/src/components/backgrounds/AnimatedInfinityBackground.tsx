@@ -34,10 +34,26 @@ export default function AnimatedInfinityBackground({
   opacity = 0.18,
   density = 7,
   morph = true,
-  modeCycleSeconds = 16, // longer linger on each shape
+  // Restore original cycle length; we'll hold shape using shapeHold instead
+  modeCycleSeconds = 16,
   // New: scale factor to enlarge/reduce the animation footprint relative to the SVG viewBox
   // Increasing this helps the animation visually fill the screen behind content.
   scale = 1.4,
+  // Restore original evolution speed; we'll use shapeHold for perceived stability
+  evolveRate = 0.0005,
+  // Restore original jitter amplitude; can be tuned if needed
+  morphAmount = 0.028,
+  // Restore original dash flow speed so lines visibly move
+  flowSpeed = 240,
+  // Restore original base time scales for the parametric path
+  pathTimeScaleX = 0.12,
+  pathTimeScaleY = 0.13,
+  // New: percentage of each mode cycle to "hold" the shape (no blending), with quick transitions
+  // 0 = always blend smoothly; 0.65 = hold ~65% of the cycle on a stable shape
+  shapeHold = 0.65,
+  // New: start the animation as if this many REAL seconds have already elapsed.
+  // Example: startAtSeconds=8 will jump to the visual state you'd see ~8s after load.
+  startAtSeconds = 0,
 }: {
   className?: string;
   lineColor?: string;
@@ -47,9 +63,26 @@ export default function AnimatedInfinityBackground({
   modeCycleSeconds?: number;
   /** Multiplier applied to path amplitudes to control how much of the screen the animation occupies */
   scale?: number;
+  /** Global time evolution multiplier; lower = slower, more cohesive */
+  evolveRate?: number;
+  /** Jitter amplitude applied when morph=true; lower values keep lines together */
+  morphAmount?: number;
+  /** Stroke dash scroll speed along the paths; lower = calmer */
+  flowSpeed?: number;
+  /** Base time scale applied to the parametric path (X) */
+  pathTimeScaleX?: number;
+  /** Base time scale applied to the parametric path (Y) */
+  pathTimeScaleY?: number;
+  /** Portion of the mode cycle to hold a stable shape; higher = longer hold, quicker transitions */
+  shapeHold?: number;
+  /** Initialize the internal time as if this many REAL seconds have passed */
+  startAtSeconds?: number;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [time, setTime] = useState(0);
+  // Initialize time with a real-seconds offset converted into our internal units.
+  // Internally, we advance time by (deltaMs * evolveRate), so 1 real second ~= 1000 * evolveRate units.
+  // Therefore, to jump ahead by N real seconds on mount, we seed time with N * 1000 * evolveRate.
+  const [time, setTime] = useState(() => startAtSeconds * 1000 * evolveRate);
   const [reduced, setReduced] = useState(false);
   const rafRef = useRef<number | null>(null);
 
@@ -70,14 +103,15 @@ export default function AnimatedInfinityBackground({
     const tick = (now: number) => {
       const dt = Math.min(64, now - last);
       last = now;
-      setTime((t) => t + dt * 0.0005); // slower evolution
+      // Use evolveRate so we can tune how quickly the overall motion progresses
+      setTime((t) => t + dt * evolveRate);
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [reduced]);
+  }, [reduced, evolveRate]);
 
   const vb = { w: 1400, h: 900, cx: 700, cy: 450 };
 
@@ -100,7 +134,24 @@ export default function AnimatedInfinityBackground({
     const idx = Number.isFinite(idxBase) ? (idxBase % total + total) % total : 0;
     const next = (idx + 1) % total;
     const fracBase = s % 1;
-    const frac = smoothstep(Number.isFinite(fracBase) ? (fracBase + 1) % 1 : 0);
+    let frac = smoothstep(Number.isFinite(fracBase) ? (fracBase + 1) % 1 : 0);
+    // Apply shapeHold: keep frac snapped to 0 or 1 for a large portion of the cycle
+    // plateau defines the central region that will be mapped to a quick transition zone
+    const clampedHold = Math.max(0, Math.min(0.95, shapeHold));
+    if (clampedHold > 0) {
+      const plateau = clampedHold; // e.g., 0.65 => 65% hold
+      const edge = (1 - plateau) / 2; // time spent transitioning on each side
+      if (frac < edge) {
+        frac = 0;
+      } else if (frac > 1 - edge) {
+        frac = 1;
+      } else {
+        // Remap the remaining small band to [0,1] for a quick but smooth transition
+        const u = (frac - edge) / (1 - 2 * edge);
+        const us = smoothstep(u);
+        frac = Math.max(0, Math.min(1, us));
+      }
+    }
     const a = MODES[idx] ?? MODES[0];
     const b = MODES[next] ?? MODES[0];
     return {
@@ -108,7 +159,8 @@ export default function AnimatedInfinityBackground({
       fy: a.fy * (1 - frac) + b.fy * frac,
       sx: a.sx * (1 - frac) + b.sx * frac,
       sy: a.sy * (1 - frac) + b.sy * frac,
-      rot: 0.05 * Math.sin(t * 0.15), // slower rotation
+      // Restore original rotation feel
+      rot: 0.05 * Math.sin(t * 0.15),
     };
   };
 
@@ -122,12 +174,13 @@ export default function AnimatedInfinityBackground({
 
     for (let i = 0; i <= N; i++) {
       const u = (i / N) * Math.PI * 2;
-      let x = Math.sin(p.fx * (u + phase + time * 0.12 * speed));
-      let y = Math.sin(p.fy * (u + phase + time * 0.13 * speed) + Math.PI / 2);
+      let x = Math.sin(p.fx * (u + phase + time * pathTimeScaleX * speed));
+      let y = Math.sin(p.fy * (u + phase + time * pathTimeScaleY * speed) + Math.PI / 2);
 
       if (morph) {
-        x += 0.028 * Math.sin(3 * u + time * 0.6 + phase * 1.3);
-        y += 0.024 * Math.cos(4 * u + time * 0.55 + phase * 1.1);
+        // Use restored jitter amplitude; still visually cohesive with shapeHold in effect
+        x += morphAmount * Math.sin(3 * u + time * 0.6 + phase * 1.3);
+        y += (morphAmount * 0.86) * Math.cos(4 * u + time * 0.55 + phase * 1.1);
       }
 
       const cosr = Math.cos(p.rot);
@@ -149,12 +202,13 @@ export default function AnimatedInfinityBackground({
 
   const layers = useMemo(() => {
     return new Array(density).fill(0).map((_, i) => {
+      // Restore slight per-layer differences for depth while keeping overall cohesion
       const tPhase = (i / Math.max(1, density - 1)) * Math.PI * 0.8;
       const amp = 1 + (i - (density - 1) / 2) * 0.035;
-      const speed = 0.7 + i * 0.12; // slower parallax speeds
+      const speed = 0.7 + i * 0.12; // parallax speeds
       return { d: makePath(tPhase, amp, speed), i, speed };
     });
-  }, [density, time, morph, modeCycleSeconds, scale]);
+  }, [density, time, morph, modeCycleSeconds, scale, shapeHold]);
 
   const dashBase = 22;
 
@@ -198,7 +252,8 @@ export default function AnimatedInfinityBackground({
               strokeLinejoin="round"
               style={{
                 strokeDasharray: `${dashBase + idx * 6} ${(dashBase + idx * 6) * 1.5}`,
-                strokeDashoffset: (time * 240 * (1 + idx * 0.12)) % 4000,
+                // Restore quicker dash flow so motion is visible while the shape holds
+                strokeDashoffset: (time * flowSpeed * (1 + idx * 0.12)) % 4000,
               }}
             />
           ))}

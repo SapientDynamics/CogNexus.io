@@ -47,8 +47,8 @@ export default function Home() {
         id="hero"
         className="relative px-6 scroll-mt-24 min-h-screen flex items-start justify-center overflow-hidden"
       >
-        {/* Background visual: replacing orb with AnimatedInfinityBackground */}
-        <AnimatedInfinityBackground />
+        {/* Background visual: initialize at ~8s into the animation for a more pleasing starting shape */}
+        <AnimatedInfinityBackground startAtSeconds={8} />
         {/* Logo and chip moved into the centered content container so the logo sits directly above the headline */}
 
         {/* Foreground content container (centered). Absolutely center the headline block in the viewport */}
@@ -76,7 +76,7 @@ export default function Home() {
             className="mt-4 pb-10 text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-neutral-600 whitespace-nowrap"
             variants={itemVariants}
           >
-            AI for brains that build the word
+            AI for the teams who build the world
           </motion.h1>
           {/* Supporting copy removed per request */}
 
@@ -124,7 +124,7 @@ export default function Home() {
                            shadow-[0_2px_10px_rgba(0,0,0,.08),0_20px_40px_rgba(0,0,0,.06)]
                            hover:shadow-[0_3px_12px_rgba(0,0,0,.10),0_24px_48px_rgba(0,0,0,.08)]"
               >
-                See Why It Works
+                See How It Works
               </Button>
             </Link>
           </motion.div>
