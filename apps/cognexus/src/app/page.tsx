@@ -57,36 +57,38 @@ export default function Home() {
         >
           {/* Pill tag chip above the title, matching Orb raised chip style via shared Chip */}
           <motion.div variants={itemVariants}>
+            {/* Human-first positioning chip: signals the guiding principle succinctly */}
             <Chip leading={<span className="inline-block h-2 w-2 rounded-full bg-black" />}>
-              Unified Intelligence Platform
+              Human‑First Intelligence
             </Chip>
           </motion.div>
 
-          {/* Hero title closely matching Orb template scale and weight */}
+          {/* Hero title: minimal, memorable statement that still reflects the credo. */}
           <motion.h1
             className="mt-6 text-4xl md:text-6xl font-semibold tracking-tight text-black"
             variants={itemVariants}
           >
-            Connect what your teams know into decision-ready answers
+            Human intelligence, connected.
           </motion.h1>
 
-          {/* Supporting copy to clarify the value proposition */}
+          {/* Supporting copy: extremely concise promise, avoiding hype. */}
           <motion.p
-            className="mt-5 text-lg md:text-xl text-neutral-700 max-w-2xl mx-auto"
+            className="mt-5 text-base md:text-lg text-neutral-700 max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            CogNexus ingests drawings, specs, schedules, RFIs, and field recordings; links them with provenance; and delivers cited responses, trends, and foresight.
+            Decision‑ready answers from what your teams know.
           </motion.p>
 
-          {/* Primary and secondary calls to action */}
+          {/* Primary and secondary calls to action: align to brand language */}
           <motion.div className="mt-8 flex items-center justify-center gap-3" variants={itemVariants}>
             {/* Primary: black pill button (tokens applied via variant="primary") */}
             <Link href="/forge">
-              <Button variant="primary">Get Started</Button>
+              {/* Updated CTA copy to reflect login/account entry flow */}
+              <Button variant="primary">Enter Your Nexus</Button>
             </Link>
             {/* Secondary: scroll to Features using hash for smooth scrolling */}
-            <Link href="#features">
-              <Button variant="secondary">Learn More</Button>
+            <Link href="#how-it-works">
+              <Button variant="secondary">See how it works</Button>
             </Link>
           </motion.div>
         </motion.div>
@@ -103,7 +105,8 @@ export default function Home() {
           {/* Reveal the quote as it enters the viewport for a refined, Orb-like scroll animation */}
           <Reveal>
             <blockquote className="text-2xl md:text-4xl font-medium leading-relaxed text-neutral-700">
-              &ldquo;AI doesn’t change the world by crunching numbers. It changes the world by amplifying human intelligence.&rdquo;
+              {/* Founder quote (concise): uses one of the supporting lines */}
+              &ldquo;AI is leverage for human intelligence.&rdquo;
             </blockquote>
           </Reveal>
 
@@ -140,6 +143,26 @@ export default function Home() {
       </section>
 
       {/**
+       * PRINCIPLES BAND (ultra-concise)
+       * - Replace cards with three short chips for minimal copy and fast scanning
+       */}
+      <section id="principles" className="px-6 py-16 scroll-mt-24">
+        <div className="mx-auto max-w-6xl text-center">
+          <Reveal>
+            <h2 className="text-xl md:text-2xl font-semibold tracking-tight text-black">Principles</h2>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              {/* Three terse principles as chips */}
+              <Chip leading={<span className="inline-block h-2 w-2 rounded-full bg-neutral-900" />}>Human‑First</Chip>
+              <Chip leading={<span className="inline-block h-2 w-2 rounded-full bg-neutral-900" />}>Provenance</Chip>
+              <Chip leading={<span className="inline-block h-2 w-2 rounded-full bg-neutral-900" />}>Clarity → Execution</Chip>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/**
        * FEATURE GRID
        * - Highlights core capabilities from product memory: Q&A, Meeting Agents, T&M, Pull Planning, Lessons Learned
        */}
@@ -152,6 +175,10 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.05}>
               <p className="mt-3 text-neutral-700">Grounded responses, provenance, and operational foresight across your org.</p>
+            </Reveal>
+            {/* Thread the credo in the briefest form */}
+            <Reveal delay={0.08}>
+              <p className="mt-2 text-sm text-neutral-600">Intelligence, not AI.</p>
             </Reveal>
           </div>
 
@@ -325,6 +352,7 @@ export default function Home() {
           <Reveal delay={0.05}>
             <p className="mt-3 text-neutral-700">Start with Forge for construction, then expand to the rest of your organization.</p>
           </Reveal>
+          {/* Removed extra supporting line to keep the CTA section lean */}
           <Reveal delay={0.1}>
             <div className="mt-6 flex items-center justify-center gap-3">
               <Link href="/forge">

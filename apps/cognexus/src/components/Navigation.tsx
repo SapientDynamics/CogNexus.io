@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Button } from '@cnx/ui';
 
@@ -28,21 +29,22 @@ export const Navigation: React.FC = () => {
   }, []);
 
   // Navigation links shown in the center of the pill bar
-  // Keep only known routes to prevent 404s during development
+  // Updated per spec: How it Works, Forge, Trust, About (no Home link)
+  // On home page use section anchors; on other pages link back to home with hashes
   const navLinks = (
     pathname === '/'
       ? [
-          // When on the home page, expose section anchors to demonstrate smooth scrolling
-          { href: '#hero', label: 'Home' },
-          { href: '#features', label: 'Features' },
           { href: '#how-it-works', label: 'How it Works' },
-          { href: '#trust', label: 'Trust' },
           { href: '/forge', label: 'Forge' },
+          { href: '#trust', label: 'Trust' },
+          // Temporarily map About to the founder quote band until a dedicated section/page exists
+          { href: '#founder-quote', label: 'About' },
         ]
       : [
-          // When on other routes, link back home and to Forge
-          { href: '/', label: 'Home' },
+          { href: '/#how-it-works', label: 'How it Works' },
           { href: '/forge', label: 'Forge' },
+          { href: '/#trust', label: 'Trust' },
+          { href: '/#founder-quote', label: 'About' },
         ]
   );
 
@@ -56,8 +58,21 @@ export const Navigation: React.FC = () => {
           <div className="px-4 md:px-6 h-16 w-full flex items-center relative">
             {/* Left: Logo pinned left */}
             <div className="flex-1 flex items-center">
-              <Link href="/" className="flex items-center whitespace-nowrap">
-                <span className="text-lg font-bold text-black">CogNexus</span>
+              <Link href="/" className="flex items-center whitespace-nowrap" aria-label="Home">
+                {/**
+                 * Brand logo for desktop navbar
+                 * - Uses public asset at /brand/CXCogNexus_crop_trans.png
+                 * - Set intrinsic size (140x32) and scale via class to 49px tall (75% larger than previous 28px)
+                 * - PNG sized via CSS; provide higher-resolution source if it appears soft
+                 */}
+                <Image
+                  src="/brand/CXCogNexus_crop_trans.png"
+                  alt="CogNexus logo"
+                  width={140}
+                  height={32}
+                  priority
+                  className="h-[49px] w-auto"
+                />
               </Link>
             </div>
 
@@ -109,7 +124,7 @@ export const Navigation: React.FC = () => {
                   /* Inline style guarantees background stays black regardless of theme tokens */
                   style={{ backgroundColor: '#000' }}
                 >
-                  Create Your Nexus
+                  Enter Your Nexus
                 </Button>
               </Link>
             </div>
@@ -133,8 +148,20 @@ export const Navigation: React.FC = () => {
           >
             <div className="flex items-center gap-4 justify-between">
             {/* Left: Logo (larger hit area via negative margin technique) */}
-            <Link href="/" className="flex items-center whitespace-nowrap p-2 -m-2">
-              <span className="text-base font-bold text-black">CogNexus</span>
+            <Link href="/" className="flex items-center whitespace-nowrap p-2 -m-2" aria-label="Home">
+              {/**
+               * Brand logo for mobile navbar
+               * - Slightly smaller: ~42px tall (75% larger than previous 24px)
+               * - Uses the same /brand/CXCogNexus_crop_trans.png asset
+               */}
+              <Image
+                src="/brand/CXCogNexus_crop_trans.png"
+                alt="CogNexus logo"
+                width={120}
+                height={28}
+                priority
+                className="h-[42px] w-auto"
+              />
             </Link>
 
             {/* Center: hide links on small for simplicity; Orb uses burger here */}
@@ -210,7 +237,7 @@ export const Navigation: React.FC = () => {
                                focus-visible:ring-white/60"
                     style={{ backgroundColor: '#000' }}
                   >
-                    Create Your Nexus
+                    Enter Your Nexus
                   </Button>
                 </Link>
               </div>

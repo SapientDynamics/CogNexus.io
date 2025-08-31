@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Navigation } from '../components/Navigation';
+import { Footer } from '../components/Footer';
 import SmoothScroll from '../components/SmoothScroll';
 
 // Define metadata for the application
@@ -29,6 +30,9 @@ export default function RootLayout({
         <div className="pt-20 md:pt-0">
           {children}
         </div>
+
+        {/* Global footer with brand, nav shortcuts, and attribution to Sapient Dynamics */}
+        <Footer />
       </body>
     </html>
   );

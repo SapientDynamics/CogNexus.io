@@ -37,7 +37,8 @@ export default function UiDemoPage() {
           <SampleComponent />
         </div>
         
-        <div className="mt-8 p-4 bg-blue-50 rounded-lg">
+        {/* Use neutral tint instead of blue to stay on brand */}
+        <div className="mt-8 p-4 bg-neutral-50 rounded-lg">
           <h2 className="text-xl font-semibold mb-2">About the Shared UI Package</h2>
           <p>
             The @cnx/ui package contains reusable UI components that maintain consistent 

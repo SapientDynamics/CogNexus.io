@@ -89,7 +89,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
      */
     const variantClasses = {
       // Primary is our main CTA; tokens will override its colors/shadow to match the theme.
-      primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      primary: 'bg-black text-white hover:bg-neutral-900 focus:ring-black/40',
       // Secondary is a white pill with a subtle border + soft shadow (Orb-like).
       // We intentionally do NOT apply token overrides to secondary so it can remain white
       // even if the primary tokens change. This yields the black/white CTA pair.

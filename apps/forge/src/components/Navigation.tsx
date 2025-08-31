@@ -16,8 +16,8 @@ export const Navigation: React.FC = () => {
   const pathname = usePathname();
   
   // Navigation links
+  // Updated: remove "Home" to avoid redundant entry point in the app navigation
   const navLinks = [
-    { href: '/', label: 'Home' },
     { href: '/ui-demo', label: 'UI Demo' },
   ];
   
