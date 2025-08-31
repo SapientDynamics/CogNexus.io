@@ -35,6 +35,9 @@ export default function AnimatedInfinityBackground({
   density = 7,
   morph = true,
   modeCycleSeconds = 16, // longer linger on each shape
+  // New: scale factor to enlarge/reduce the animation footprint relative to the SVG viewBox
+  // Increasing this helps the animation visually fill the screen behind content.
+  scale = 1.4,
 }: {
   className?: string;
   lineColor?: string;
@@ -42,6 +45,8 @@ export default function AnimatedInfinityBackground({
   density?: number;
   morph?: boolean;
   modeCycleSeconds?: number;
+  /** Multiplier applied to path amplitudes to control how much of the screen the animation occupies */
+  scale?: number;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [time, setTime] = useState(0);
@@ -111,8 +116,9 @@ export default function AnimatedInfinityBackground({
     const N = 380;
     const pts: [number, number][] = [];
     const p = getBlendParams(time);
-    const ax = vb.w * p.sx * amp;
-    const ay = vb.h * p.sy * amp;
+    // Apply the scale factor to expand the drawing amplitude so the figure fills more of the viewport
+    const ax = vb.w * p.sx * amp * scale;
+    const ay = vb.h * p.sy * amp * scale;
 
     for (let i = 0; i <= N; i++) {
       const u = (i / N) * Math.PI * 2;
@@ -148,7 +154,7 @@ export default function AnimatedInfinityBackground({
       const speed = 0.7 + i * 0.12; // slower parallax speeds
       return { d: makePath(tPhase, amp, speed), i, speed };
     });
-  }, [density, time, morph, modeCycleSeconds]);
+  }, [density, time, morph, modeCycleSeconds, scale]);
 
   const dashBase = 22;
 
@@ -165,7 +171,8 @@ export default function AnimatedInfinityBackground({
         aria-label="Animated network lines forming an evolving figure"
       >
         <defs>
-          <radialGradient id="fade" cx="50%" cy="50%" r="60%">
+          {/* Expand the fade radius so lines remain visible closer to the edges */}
+          <radialGradient id="fade" cx="50%" cy="50%" r="85%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0.25" />
           </radialGradient>

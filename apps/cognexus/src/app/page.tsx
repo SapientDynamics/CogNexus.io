@@ -64,7 +64,7 @@ export default function Home() {
           <motion.img
             src="/brand/CXCogNexus_crop_trans.png"
             alt="CogNexus logo"
-            className="block mx-auto h-24 md:h-36 lg:h-[10.5rem] w-auto select-none mb-4"
+            className="block mx-auto h-24 md:h-36 lg:h-[10.5rem] w-auto select-none mb-[-24px]"
             loading="eager"
             decoding="async"
             variants={itemVariants}
@@ -72,11 +72,11 @@ export default function Home() {
 
           {/* Headline below the logo */}
           <motion.h1
-            // Make headline ~50% smaller across breakpoints and use dark gray instead of black
-            className="mt-4 text-xl md:text-2xl lg:text-3xl font-semibold md:font-bold tracking-tight text-neutral-800 whitespace-nowrap"
+            // Keep headline ~50% smaller, lighter gray, and reduce font weight to medium for a softer look
+            className="mt-4 pb-10 text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-neutral-600 whitespace-nowrap"
             variants={itemVariants}
           >
-            Built for brains that build the word
+            AI for brains that build the word
           </motion.h1>
           {/* Supporting copy removed per request */}
 
