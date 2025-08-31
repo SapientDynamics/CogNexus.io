@@ -74,7 +74,7 @@ export const Navigation: React.FC = () => {
                       text-[15px] px-3 py-1.5 rounded-lg font-medium
                       bg-transparent text-black
                       hover:bg-transparent
-                      hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.3),_inset_-2px_-2px_5px_rgba(255,255,255,0.7)]
+                      hover:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3),_inset_-1px_-1px_3px_rgba(255,255,255,0.7)]
                       active:translate-y-px
                       transition-[box-shadow,background-color,color,transform] duration-300 ease-out
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40
@@ -128,7 +128,7 @@ export const Navigation: React.FC = () => {
             style={{
               paddingLeft: 'max(0.75rem, env(safe-area-inset-left))',
               paddingRight: 'max(1rem, env(safe-area-inset-right))',
-              borderRadius: mobileOpen ? '20px 20px 8px 8px' : '20px',
+              borderRadius: mobileOpen ? '14px 14px 6px 6px' : '14px',
             }}
           >
             <div className="flex items-center gap-4 justify-between">
@@ -148,8 +148,10 @@ export const Navigation: React.FC = () => {
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-dropdown"
                 onClick={() => setMobileOpen((v) => !v)}
-                className="p-3 -m-3 rounded-lg hover:bg-black/5 active:bg-black/10
-                           focus:outline-none focus:ring-2 focus:ring-black/40 transition-colors"
+                className="p-3 -m-3 rounded-lg appearance-none bg-transparent
+                           outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black/40 transition-colors"
+                /* Remove default tap highlight and only show ring for keyboard users. Also no hover/active bg to avoid gray highlight */
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 {/* Animated hamburger -> X using 3 bars */}
                 <span className="relative block h-6 w-6">
@@ -185,7 +187,7 @@ export const Navigation: React.FC = () => {
                       block text-[18px] leading-7 text-black font-medium
                       px-3 py-1.5 rounded-lg bg-transparent
                       hover:bg-transparent
-                      hover:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.3),_inset_-2px_-2px_5px_rgba(255,255,255,0.7)]
+                      hover:shadow-[inset_1px_1px_3px_rgba(0,0,0,0.3),_inset_-1px_-1px_3px_rgba(255,255,255,0.7)]
                       active:translate-y-px
                       transition-[box-shadow,background-color,color,transform] duration-300 ease-out
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/40
