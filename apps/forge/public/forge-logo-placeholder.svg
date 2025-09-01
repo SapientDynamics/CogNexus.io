@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Placeholder Forge logo: simple wordmark with a teal accent bar. Replace with real logo when available. -->
+<svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Forge Placeholder Logo</title>
+  <desc id="desc">Text wordmark reading Forge with a teal accent bar. Placeholder graphic.</desc>
+  <defs>
+    <linearGradient id="forgeAccent" x1="0" y1="0" x2="180" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#19B5B2"/>
+      <stop offset="100%" stop-color="#5B6B79"/>
+    </linearGradient>
+  </defs>
+  <!-- Accent bar -->
+  <rect x="0" y="34" width="180" height="4" fill="url(#forgeAccent)" rx="2"/>
+  <!-- Wordmark (simple path/text for placeholder) -->
+  <g fill="#E6E9F0">
+    <text x="0" y="27" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="0.5">
+      FORGE
+    </text>
+  </g>
+</svg>

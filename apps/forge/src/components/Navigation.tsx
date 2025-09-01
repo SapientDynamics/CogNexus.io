@@ -4,6 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Chip } from '@cnx/ui';
 
 /**
  * Navigation component for the Forge app
@@ -32,10 +34,22 @@ export const Navigation: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-white">
-                Forge<span className="text-orange-400">.CogNexus.io</span>
-              </span>
+            <Link href="/" className="flex items-center gap-3">
+              {/* Placeholder wordmark logo (replace when official logo lands) */}
+              <Image
+                src="/forge-logo-placeholder.svg"
+                alt="Forge logo"
+                width={140}
+                height={30}
+                priority
+              />
+              {/* Badge: With the power of CogNexus */}
+              <Chip
+                className="hidden sm:inline-flex"
+                leading={<span className="h-2 w-2 rounded-full" style={{ backgroundColor: 'var(--cnx-accent)' }} />}
+              >
+                With the power of CogNexus
+              </Chip>
             </Link>
           </div>
           
@@ -58,7 +72,7 @@ export const Navigation: React.FC = () => {
                     {link.label}
                     {isActive && (
                       <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-400"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[color:var(--cnx-accent)]"
                         layoutId="navigation-underline"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
