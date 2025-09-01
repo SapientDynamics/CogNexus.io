@@ -54,8 +54,31 @@ function Pill({ children }: { children: React.ReactNode }) {
 }
 
 export default function AuthPage() {
-  const [mode, setMode] = React.useState<"signin" | "signup">("signin");
+  // Initialize the active tab from the URL query string for deep-linking.
+  // Accepts ?mode=signup or ?mode=signin (default). This enables external CTAs
+  // like "Create Your Nexus" to land directly on the Create Account view.
+  // We avoid useSearchParams() to keep types compatible and instead read from
+  // window.location in a guarded helper (so SSR/hydration doesn't break).
+  const getInitialMode = (): "signin" | "signup" => {
+    // During SSR, window is undefined; default to signin. After mount, we sync.
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("mode") === "signup" ? "signup" : "signin";
+    }
+    return "signin";
+  };
+
+  // Use a lazy initializer so we only compute once on mount.
+  const [mode, setMode] = React.useState<"signin" | "signup">(getInitialMode);
   const [showPassword, setShowPassword] = React.useState(false);
+
+  // After mount, sync mode with the current URL to handle hydration and future
+  // client-side navigations that might change the query string.
+  React.useEffect(() => {
+    const next = getInitialMode();
+    if (next !== mode) setMode(next);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Layered background: solid gunmetal + blueprint grid (muted blue lines) + soft radial vignette.
   // Using inline styles keeps this page self-contained and avoids global CSS changes.
@@ -206,7 +229,7 @@ export default function AuthPage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword((v) => !v)}
+                    onClick={() => setShowPassword((v: boolean) => !v)}
                     className="absolute inset-y-0 right-2 inline-flex items-center justify-center rounded p-1 text-[#5B636D] hover:text-[#1C1E22] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D6AA0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EEEFF1]"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >

@@ -106,7 +106,7 @@ export default function Forge() {
             Ready to transform your construction projects with AI-powered intelligence?
           </p>
           <Link 
-            href="https://forge.cognexus.io" 
+            href="https://forge.cognexus.io/auth?mode=signup" 
             target="_blank" 
             rel="noopener noreferrer"
           >
