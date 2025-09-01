@@ -4,9 +4,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Button, Card } from '@cnx/ui';
+import LandingHome from './_components/LandingHome';
 
 // Home page component for Forge app
 export default function Home() {
+  // Route root (/) to the new marketing landing page component.
+  // Unified auth UI moved to /auth via AuthShell; deep-linking supported.
+  return <LandingHome />;
+
   /**
    * Auth mode toggles the form between "Sign In" and "Create Account".
    * We do not wire a backend here; this is a presentational/auth-entry screen.
