@@ -20,3 +20,24 @@ applications:
         paths:
           - .pnpm-store/**/*
           - .next/cache/**/*
+  # Forge app: build/deploy from apps/forge
+  - appRoot: apps/forge
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - pnpm install --frozen-lockfile -w
+            # if your shared lib needs compiling, uncomment:
+            # - pnpm -w build
+        build:
+          commands:
+            - pnpm build
+      artifacts:
+        baseDirectory: .next
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - .pnpm-store/**/*
+          - .next/cache/**/*
