@@ -13,7 +13,9 @@ frontend:
         - corepack enable
         - corepack prepare pnpm@10.15.0 --activate
         # Install from the monorepo root (two levels up from apps/cognexus)
-        - pnpm -C ../.. install --frozen-lockfile -w
+        - pnpm -C ../.. install --frozen-lockfile -w --store-dir=.pnpm-store
+        # Build shared UI package so dist/ exists for consumers
+        - pnpm -C ../.. -F "@cnx/ui" build
         # If shared packages require pre-build, you can optionally run:
         # - pnpm -C ../.. -w build
     build:
