@@ -111,8 +111,8 @@ export const Navigation: React.FC = () => {
             {/* Right: CTAs pinned right (Create + Login) */}
             <div className="flex-1 flex items-center justify-end">
               <div className="flex items-center gap-2">
-                {/* Primary CTA */}
-                <Link href="/forge">
+                {/* Primary CTA -> route to Forge Auth (signup) */}
+                <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer">
                   {/**
                    * Override base Button styles to match the reference:
                    * - Black rounded pill with white text
@@ -137,8 +137,8 @@ export const Navigation: React.FC = () => {
                   </Button>
                 </Link>
 
-                {/* Login CTA: black with 50% opacity */}
-                <Link href="/login">
+                {/* Login CTA -> route to Forge Auth (signin); keep visual style intact */}
+                <Link href="https://forge.cognexus.io/auth?mode=signin" target="_blank" rel="noopener noreferrer">
                   <Button
                     variant="ghost"
                     className="rounded-xl px-3 py-1.5 text-[14px] !bg-black/50 !text-white
@@ -253,7 +253,8 @@ export const Navigation: React.FC = () => {
               </div>
               {/* Bottom CTA */}
               <div className="px-5 pb-4 pt-1">
-                <Link href="/forge" onClick={() => setMobileOpen(false)}>
+                {/* Mobile bottom CTA -> Forge Auth (signup) */}
+                <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>
                   <Button
                     variant="ghost"
                     className="w-full rounded-xl px-4 py-3 text-[15px] !bg-black !text-white

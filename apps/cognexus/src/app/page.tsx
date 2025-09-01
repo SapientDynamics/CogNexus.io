@@ -94,7 +94,7 @@ export default function Home() {
           {/* Primary and secondary calls to action: align to brand language */}
           <motion.div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3" variants={itemVariants}>
             {/* Primary: black pill button (tokens applied via variant="primary") */}
-            <Link href="/forge">
+            <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer">
               {/* Use primary variant; global tokens provide black surface, 14px radius, and layered shadows */}
               <Button
                 variant="primary"
@@ -436,10 +436,10 @@ export default function Home() {
 
                       {/* Primary and secondary CTAs; stack on mobile for easier tapping */}
                       <div className="mt-5 flex flex-col sm:flex-row flex-wrap gap-3">
-                        <Link href="/forge" aria-label="Get the 2-minute Forge tour">
+                        <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer" aria-label="Get the 2-minute Forge tour">
                           <Button variant="primary">Get the 2‑min tour</Button>
                         </Link>
-                        <Link href="/forge" aria-label="See Forge capabilities">
+                        <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer" aria-label="See Forge capabilities">
                           <Button variant="secondary">See capabilities →</Button>
                         </Link>
                       </div>
@@ -690,10 +690,10 @@ export default function Home() {
           {/* Removed extra supporting line to keep the CTA section lean */}
           <Reveal delay={0.1}>
             <div className="mt-6 flex items-center justify-center gap-3">
-              <Link href="/forge">
+              <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer">
                 <Button variant="primary">Get Started</Button>
               </Link>
-              <Link href="/forge">
+              <Link href="https://forge.cognexus.io/auth?mode=signup" target="_blank" rel="noopener noreferrer">
                 <Button variant="secondary">Talk to Us</Button>
               </Link>
             </div>
