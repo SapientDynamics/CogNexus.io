@@ -5,12 +5,14 @@ applications:
       phases:
         preBuild:
           commands:
+            - nvm install 18.20.3
+            - nvm use 18.20.3
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify
             - corepack prepare pnpm@10.15.0 --activate
             # Install from the monorepo root so workspace deps and shared packages are linked
             # Use a local store directory to improve cache hits in Amplify
-            - pnpm -C ../.. install --frozen-lockfile -w --store-dir=.pnpm-store
+            - pnpm -C ../.. install --frozen-lockfile --store-dir=.pnpm-store --filter ./apps/cognexus... --filter @cnx/ui
             # Build shared UI package so dist/ exists for consumers
             - pnpm -C ../.. -F "@cnx/ui" build
             # if your shared lib needs compiling, uncomment:
@@ -32,11 +34,13 @@ applications:
       phases:
         preBuild:
           commands:
+            - nvm install 18.20.3
+            - nvm use 18.20.3
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify
             - corepack prepare pnpm@10.15.0 --activate
             # install from the workspace root so shared deps are linked
-            - pnpm -C ../.. install --frozen-lockfile -w --store-dir=.pnpm-store
+            - pnpm -C ../.. install --frozen-lockfile --store-dir=.pnpm-store --filter ./apps/forge... --filter @cnx/ui
             # Build shared UI package so dist/ exists for consumers
             - pnpm -C ../.. -F "@cnx/ui" build
             # if your shared lib needs compiling, uncomment:
