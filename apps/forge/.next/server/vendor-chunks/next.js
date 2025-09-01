@@ -2051,6 +2051,17 @@ eval("\nmodule.exports = __webpack_require__(/*! ../../module.compiled */ \"(ssr
 
 /***/ }),
 
+/***/ "(ssr)/../../node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-jsx-runtime.js":
+/*!***********************************************************************************************************!*\
+  !*** ../../node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-jsx-runtime.js ***!
+  \***********************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\nmodule.exports = __webpack_require__(/*! ../../module.compiled */ \"(ssr)/../../node_modules/next/dist/server/future/route-modules/app-page/module.compiled.js?75a7\").vendored[\"react-ssr\"].ReactJsxRuntime;\n\n//# sourceMappingURL=react-jsx-runtime.js.map//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi4vLi4vbm9kZV9tb2R1bGVzL25leHQvZGlzdC9zZXJ2ZXIvZnV0dXJlL3JvdXRlLW1vZHVsZXMvYXBwLXBhZ2UvdmVuZG9yZWQvc3NyL3JlYWN0LWpzeC1ydW50aW1lLmpzIiwibWFwcGluZ3MiOiJBQUFhO0FBQ2IsME1BQXVGOztBQUV2RiIsInNvdXJjZXMiOlsid2VicGFjazovL2ZvcmdlLy4uLy4uL25vZGVfbW9kdWxlcy9uZXh0L2Rpc3Qvc2VydmVyL2Z1dHVyZS9yb3V0ZS1tb2R1bGVzL2FwcC1wYWdlL3ZlbmRvcmVkL3Nzci9yZWFjdC1qc3gtcnVudGltZS5qcz9hZTFlIl0sInNvdXJjZXNDb250ZW50IjpbIlwidXNlIHN0cmljdFwiO1xubW9kdWxlLmV4cG9ydHMgPSByZXF1aXJlKFwiLi4vLi4vbW9kdWxlLmNvbXBpbGVkXCIpLnZlbmRvcmVkW1wicmVhY3Qtc3NyXCJdLlJlYWN0SnN4UnVudGltZTtcblxuLy8jIHNvdXJjZU1hcHBpbmdVUkw9cmVhY3QtanN4LXJ1bnRpbWUuanMubWFwIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(ssr)/../../node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-jsx-runtime.js\n");
+
+/***/ }),
+
 /***/ "(ssr)/../../node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-server-dom-webpack-client-edge.js":
 /*!******************************************************************************************************************************!*\
   !*** ../../node_modules/next/dist/server/future/route-modules/app-page/vendored/ssr/react-server-dom-webpack-client-edge.js ***!
