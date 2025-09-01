@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Emit compiled files into the dist directory for publishing/consumption
+    "noEmit": false,
+    "outDir": "./dist",
+
+    // Generate type declarations alongside the JS output
+    "declaration": true,
+    "declarationMap": false,
+
+    // Target modern JS for bundlers while remaining broadly compatible
+    "module": "ESNext",
+    "target": "ES2019",
+    "moduleResolution": "node",
+
+    // Ensure React JSX is compiled correctly for the library
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

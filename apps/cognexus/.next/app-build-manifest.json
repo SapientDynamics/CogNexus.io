@@ -1,15 +1,47 @@
 {
   "pages": {
+    "/_not-found": [
+      "static/chunks/webpack-82d34f54172456ab.js",
+      "static/chunks/1dd3208c-3c7f950de1e03ac1.js",
+      "static/chunks/53-747ecb692d619b08.js",
+      "static/chunks/main-app-ad150bec0193dfdb.js",
+      "static/chunks/app/_not-found-b6debd0d838a3cfe.js"
+    ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-82d34f54172456ab.js",
+      "static/chunks/1dd3208c-3c7f950de1e03ac1.js",
+      "static/chunks/53-747ecb692d619b08.js",
+      "static/chunks/main-app-ad150bec0193dfdb.js",
+      "static/chunks/274-fae793ab3668dbde.js",
+      "static/chunks/177-66e29da2a383381d.js",
+      "static/css/6f3e8a9100ef7a8a.css",
+      "static/chunks/app/layout-589a38a15b3ddb4f.js"
+    ],
+    "/ui-demo/page": [
+      "static/chunks/webpack-82d34f54172456ab.js",
+      "static/chunks/1dd3208c-3c7f950de1e03ac1.js",
+      "static/chunks/53-747ecb692d619b08.js",
+      "static/chunks/main-app-ad150bec0193dfdb.js",
+      "static/chunks/274-fae793ab3668dbde.js",
+      "static/chunks/app/ui-demo/page-38f6734985d51679.js"
     ],
     "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/webpack-82d34f54172456ab.js",
+      "static/chunks/1dd3208c-3c7f950de1e03ac1.js",
+      "static/chunks/53-747ecb692d619b08.js",
+      "static/chunks/main-app-ad150bec0193dfdb.js",
+      "static/chunks/274-fae793ab3668dbde.js",
+      "static/chunks/691-fae43314f5695c82.js",
+      "static/chunks/app/page-06bd9877e59ef3a6.js"
+    ],
+    "/forge/page": [
+      "static/chunks/webpack-82d34f54172456ab.js",
+      "static/chunks/1dd3208c-3c7f950de1e03ac1.js",
+      "static/chunks/53-747ecb692d619b08.js",
+      "static/chunks/main-app-ad150bec0193dfdb.js",
+      "static/chunks/274-fae793ab3668dbde.js",
+      "static/chunks/691-fae43314f5695c82.js",
+      "static/chunks/app/forge/page-2d81ca90b2550c23.js"
     ]
   }
 }

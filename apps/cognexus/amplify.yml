@@ -1,0 +1,31 @@
+version: 1
+# Amplify Hosting build configuration for the Cognexus app (apps/cognexus)
+#
+# Rationale:
+# - We pin pnpm to a specific version via Corepack for reproducible builds
+# - We install from the monorepo root so workspace deps and shared packages are linked
+# - We build only this app using pnpm's --filter selector
+# - Next.js SSR artifacts are emitted into .next (do NOT use standalone output for Amplify)
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - corepack enable
+        - corepack prepare pnpm@10.15.0 --activate
+        # Install from the monorepo root (two levels up from apps/cognexus)
+        - pnpm -C ../.. install --frozen-lockfile -w
+        # If shared packages require pre-build, you can optionally run:
+        # - pnpm -C ../.. -w build
+    build:
+      commands:
+        # Build only the Cognexus app
+        - pnpm --filter ./apps/cognexus build
+  artifacts:
+    # Deploy SSR from the .next directory
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - ../../.pnpm-store/**/*
+      - .next/cache/**/*
