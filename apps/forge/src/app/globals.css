@@ -2,18 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Forge dark theme globals
+  - Provides CSS variables consumed by @cnx/ui components (Button, Card, Chip)
+  - Establishes a solid dark background and accessible foreground colors
+  - Defines teal/steel accent palette and focus ring
+  - Adds reduced-motion support for any animated backgrounds (e.g., orbs)
+*/
+
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 194, 65, 12;
-  --background-end-rgb: 0, 0, 0;
+  /* Core palette */
+  --cnx-fg: #e6e9f0;            /* primary foreground text */
+  --cnx-fg-muted: #a6adbb;      /* secondary text */
+  --cnx-bg: #0b0e13;            /* base background (very dark blue/black) */
+  --cnx-stroke: rgba(255,255,255,0.12); /* subtle strokes on glass surfaces */
+
+  /* Forge accent (teal/steel) */
+  --cnx-accent: #19B5B2;        /* teal primary */
+  --cnx-accent-2: #5B6B79;      /* steel secondary */
+  --cnx-focus-ring: rgba(25, 181, 178, 0.5);
+
+  /* Motion tokens (used by UI components) */
+  --cnx-duration: 200ms;
+  --cnx-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Button tokens (primary variant only; others keep Tailwind fallbacks) */
+  /* Radius standardized to 6px per latest UI request */
+  --cnx-btn-radius: 6px;
+  --cnx-btn-padding-x: 18px;
+  /* Additional vertical padding reduction by exactly 25% (was 9px -> 6.75px) for a denser height */
+  --cnx-btn-padding-y: 6.75px;
+  --cnx-btn-font-size: 15px;
+  --cnx-btn-text: #0b0e13;                  /* dark text on light button if needed */
+  --cnx-btn-text-hover: #0b0e13;
+  --cnx-btn-bg: #19B5B2;                    /* teal primary */
+  --cnx-btn-bg-hover: #12A19E;              /* slightly darker teal */
+  --cnx-btn-shadow: 0 6px 14px rgba(0,0,0,0.35);
+  --cnx-btn-shadow-hover: 0 12px 28px rgba(0,0,0,0.45);
+
+  /* Card tokens (glass/raised look on dark) */
+  --cnx-card-radius: 20px;
+  --cnx-card-bg: rgba(255,255,255,0.06);
+  --cnx-card-border: rgba(255,255,255,0.12);
+  --cnx-card-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  --cnx-card-shadow-raised: 0 26px 60px rgba(0,0,0,0.55);
+
+  /* Chip tokens (for the "With the power of CogNexus" badge) */
+  --cnx-chip-radius: 9999px;
+  --cnx-chip-bg: rgba(255,255,255,0.96);
+  --cnx-chip-border: rgba(0,0,0,0.08);
+  --cnx-chip-shadow: 0 2px 6px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.06);
+}
+
+/* Base document colors */
+html, body {
+  height: 100%;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      rgb(var(--background-start-rgb)),
-      rgb(var(--background-end-rgb))
-    )
-    fixed;
+  color: var(--cnx-fg);
+  background: var(--cnx-bg);
+}
+
+/* Utility: subtle text colors for dark theme */
+.text-muted {
+  color: var(--cnx-fg-muted);
+}
+
+/* Reduced motion support for any animated decorative elements (e.g., orbs) */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe\:animate-none { animation: none !important; }
 }

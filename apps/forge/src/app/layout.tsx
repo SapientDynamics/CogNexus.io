@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Navigation } from '../components/Navigation';
 
 // Initialize the Inter font with Latin subset
 const inter = Inter({ subsets: ['latin'] });
@@ -21,11 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Navigation component */}
-        <Navigation />
-        
-        {/* Main content container with padding for the fixed navigation */}
-        <div className="pt-16">
+        {/* Page content. Individual pages can render their own headers/footers. */}
+        <div>
           {children}
         </div>
       </body>
