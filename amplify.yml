@@ -27,7 +27,10 @@ applications:
         preBuild:
           commands:
             - corepack enable
-            - pnpm install --frozen-lockfile -w
+            # Pin pnpm version for reproducible builds in Amplify
+            - corepack prepare pnpm@10.15.0 --activate
+            # install from the workspace root so shared deps are linked
+            - pnpm -C ../.. install --frozen-lockfile -w
             # if your shared lib needs compiling, uncomment:
             # - pnpm -w build
         build:
@@ -39,5 +42,5 @@ applications:
           - '**/*'
       cache:
         paths:
-          - .pnpm-store/**/*
+          - ../../.pnpm-store/**/*
           - .next/cache/**/*
