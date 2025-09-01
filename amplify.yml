@@ -6,7 +6,9 @@ applications:
         preBuild:
           commands:
             - corepack enable
+            # Pin pnpm version for reproducible builds in Amplify
             - corepack prepare pnpm@10.15.0 --activate
+            # Install from the monorepo root so workspace deps and shared packages are linked
             - pnpm -C ../.. install --frozen-lockfile -w
             # if your shared lib needs compiling, uncomment:
             # - pnpm -w build
