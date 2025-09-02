@@ -8,16 +8,14 @@ applications:
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify (kept in sync with root package.json)
             - corepack prepare pnpm@10.15.0 --activate
-            # Navigate to repository root and perform workspace install
-            - cd ../..
-            - pnpm install --frozen-lockfile --store-dir=./.pnpm-store
+            # Navigate to repository root and perform workspace install in one command
+            - cd ../.. && pnpm install --frozen-lockfile --store-dir=./.pnpm-store
             # Build the shared UI package once so both apps can consume its dist/ outputs
-            - pnpm --filter @cnx/ui build
+            - cd ../.. && pnpm --filter @cnx/ui build
         build:
           commands:
-            # Navigate back to repository root for workspace-aware build
-            - cd ../..
-            - pnpm --filter cognexus build
+            # Navigate to repository root and build the cognexus app
+            - cd ../.. && pnpm --filter cognexus build
       artifacts:
         baseDirectory: .next
         files:
@@ -35,16 +33,14 @@ applications:
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify (kept in sync with root package.json)
             - corepack prepare pnpm@10.15.0 --activate
-            # Navigate to repository root and perform workspace install
-            - cd ../..
-            - pnpm install --frozen-lockfile --store-dir=./.pnpm-store
+            # Navigate to repository root and perform workspace install in one command
+            - cd ../.. && pnpm install --frozen-lockfile --store-dir=./.pnpm-store
             # Build the shared UI package once so both apps can consume its dist/ outputs
-            - pnpm --filter @cnx/ui build
+            - cd ../.. && pnpm --filter @cnx/ui build
         build:
           commands:
-            # Navigate back to repository root for workspace-aware build
-            - cd ../..
-            - pnpm --filter forge build
+            # Navigate to repository root and build the forge app
+            - cd ../.. && pnpm --filter forge build
       artifacts:
         baseDirectory: .next
         files:
