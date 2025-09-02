@@ -64,6 +64,23 @@ body {
   background: var(--cnx-bg);
 }
 
+/* Mobile & typography polish */
+html {
+  -webkit-text-size-adjust: 100%; /* Prevent odd iOS zoom behavior */
+}
+* {
+  -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on iOS */
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+/* Ensure form controls default to 16px on mobile to avoid auto-zoom */
+input, select, textarea, button {
+  font-size: 16px;
+}
+
 /* Utility: subtle text colors for dark theme */
 .text-muted {
   color: var(--cnx-fg-muted);

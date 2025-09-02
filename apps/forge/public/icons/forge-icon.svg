@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Forge PWA Icon (SVG)
+  - Scales crisply at any size
+  - Brand teal accent with dark steel background
+  - Simple "F" mark suitable for maskable icons
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background rounded rect -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="#1C1E22"/>
+
+  <!-- Soft inner vignette for depth -->
+  <radialGradient id="g" cx="50%" cy="40%" r="65%">
+    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/>
+    <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
+  </radialGradient>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#g)"/>
+
+  <!-- Forge "F" mark -->
+  <g transform="translate(136,134)">
+    <!-- Stem -->
+    <rect x="0" y="0" width="56" height="244" rx="12" fill="#19B5B2"/>
+    <!-- Top arm -->
+    <rect x="40" y="0" width="200" height="56" rx="12" fill="#19B5B2"/>
+    <!-- Mid arm -->
+    <rect x="40" y="96" width="160" height="48" rx="12" fill="#19B5B2"/>
+  </g>
+
+  <!-- Accent dot -->
+  <circle cx="384" cy="132" r="10" fill="#19B5B2"/>
+</svg>

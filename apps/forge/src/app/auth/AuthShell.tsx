@@ -57,11 +57,13 @@ export default function AuthShell() {
   } as const;
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-[100svh] flex flex-col">
+      {/* Use 100svh for accurate mobile viewport height (accounts for dynamic toolbars) */}
       <SiteHeader />
 
       {/* Main blueprint background area */}
-      <main className="relative flex-1 w-full px-4 sm:px-6 lg:px-8 pt-12 lg:pt-20 pb-8 lg:pb-10 bg-[#1C1E22] text-white">
+      {/* Safe-area aware padding on mobile so content doesn't clash with notches/home bar */}
+      <main className="relative flex-1 w-full px-4 sm:px-6 lg:px-8 pt-[max(12px,env(safe-area-inset-top))] lg:pt-20 pb-[max(8px,env(safe-area-inset-bottom))] lg:pb-10 bg-[#1C1E22] text-white">
         {/* Brushed steel vignette */}
         <div
           aria-hidden
@@ -134,7 +136,7 @@ export default function AuthShell() {
                         type="button"
                         role="tab"
                         aria-selected={mode === 'sign-in'}
-                        className={`rounded-[6px] px-3 py-[6px] text-sm font-medium transition ${
+                        className={`rounded-[6px] px-3 py-2.5 sm:py-[6px] text-[15px] font-medium transition ${
                           mode === 'sign-in'
                             ? 'bg-white text-[#1C1E22] shadow-[0_2px_6px_rgba(0,0,0,0.08)] ring-1 ring-[#E0E0DE]'
                             : 'text-[#6E7681] hover:text-[#1C1E22]'
@@ -147,7 +149,7 @@ export default function AuthShell() {
                         type="button"
                         role="tab"
                         aria-selected={mode === 'sign-up'}
-                        className={`rounded-[6px] px-3 py-[6px] text-sm font-medium transition ${
+                        className={`rounded-[6px] px-3 py-2.5 sm:py-[6px] text-[15px] font-medium transition ${
                           mode === 'sign-up'
                             ? 'bg-white text-[#1C1E22] shadow-[0_2px_6px_rgba(0,0,0,0.08)] ring-1 ring-[#E0E0DE]'
                             : 'text-[#6E7681] hover:text-[#1C1E22]'
@@ -161,7 +163,8 @@ export default function AuthShell() {
 
                   {/* SSO buttons */}
                   <div className="mb-2 grid grid-cols-1 gap-3">
-                    <button type="button" className="inline-flex w-full items-center justify-center rounded-[6px] border border-[#E0E0DE] bg-white px-4 py-[6.75px] text-base font-medium text-[#1C1E22] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-[#F7F7F6]">
+                    {/* Make SSO buttons 44px+ tall on mobile for comfortable tap targets */}
+                    <button type="button" className="inline-flex w-full items-center justify-center rounded-[6px] border border-[#E0E0DE] bg-white px-4 py-3.5 sm:py-[6.75px] min-h-[44px] text-[16px] font-medium text-[#1C1E22] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-[#F7F7F6]">
                       <span aria-hidden className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white ring-1 ring-[#E0E0DE]">
                         <span className="grid grid-cols-2 gap-px">
                           <span className="h-2 w-2 bg-[#F25022]" />
@@ -172,7 +175,7 @@ export default function AuthShell() {
                       </span>
                       Continue with Microsoft
                     </button>
-                    <button type="button" className="inline-flex w-full items-center justify-center rounded-[6px] border border-[#E0E0DE] bg-white px-4 py-[6.75px] text-base font-medium text-[#1C1E22] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-[#F7F7F6]">
+                    <button type="button" className="inline-flex w-full items-center justify-center rounded-[6px] border border-[#E0E0DE] bg-white px-4 py-3.5 sm:py-[6.75px] min-h-[44px] text-[16px] font-medium text-[#1C1E22] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:bg-[#F7F7F6]">
                       <span aria-hidden className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full bg-white ring-1 ring-[#E0E0DE]">
                         {/* Google multi-color G */}
                         <svg width="16" height="16" viewBox="0 0 533.5 544.3" aria-hidden>
@@ -211,8 +214,11 @@ export default function AuthShell() {
                           name="name"
                           type="text"
                           autoComplete="name"
+                          autoCapitalize="words"
+                          autoCorrect="off"
+                          enterKeyHint="next"
                           placeholder="Jane Doe"
-                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-[6.75px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
+                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-3.5 sm:py-[6.75px] text-[16px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
                         />
                       </div>
                     )}
@@ -224,11 +230,15 @@ export default function AuthShell() {
                         name="email"
                         type="email"
                         autoComplete="email"
+                        inputMode="email"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        enterKeyHint="next"
                         placeholder="you@company.com"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-[6.75px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
+                        className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-3.5 sm:py-[6.75px] text-[16px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
                       />
                       <p className="mt-1 text-[11px] text-[#6E7681]">{companyHint}</p>
                     </div>
@@ -246,11 +256,15 @@ export default function AuthShell() {
                           name="password"
                           type={showPassword ? 'text' : 'password'}
                           autoComplete={mode === 'sign-in' ? 'current-password' : 'new-password'}
+                          inputMode="text"
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          enterKeyHint={mode === 'sign-in' ? 'go' : 'next'}
                           placeholder={mode === 'sign-in' ? 'Enter your password' : 'Create a strong password'}
                           required
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-[6.75px] pr-14 text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
+                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-3.5 sm:py-[6.75px] pr-14 text-[16px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
                         />
                         {/* Toggle visibility */}
                         <button
@@ -259,7 +273,7 @@ export default function AuthShell() {
                             // Explicitly type prev-state `s` to satisfy TS noImplicitAny in CI
                             setShowPassword((s: boolean) => !s)
                           }
-                          className="absolute inset-y-0 right-2 my-1 grid h-7 w-7 place-items-center rounded-full border border-[#D8D8D6] bg-[#EDEDEA] text-[#6E7681] hover:text-[#1C1E22]"
+                          className="absolute inset-y-0 right-2 my-1 grid h-9 w-9 sm:h-7 sm:w-7 place-items-center rounded-full border border-[#D8D8D6] bg-[#EDEDEA] text-[#6E7681] hover:text-[#1C1E22]"
                           aria-label={showPassword ? 'Hide password' : 'Show password'}
                         >
                           {showPassword ? (
@@ -287,9 +301,13 @@ export default function AuthShell() {
                           name="confirm"
                           type="password"
                           autoComplete="new-password"
+                          inputMode="text"
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          enterKeyHint="go"
                           placeholder="Re-enter your password"
                           required
-                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-[6.75px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
+                          className="w-full rounded-[6px] border border-[#D8D8D6] bg-white px-4 py-3.5 sm:py-[6.75px] text-[16px] text-[#1C1E22] placeholder:text-[#8A8F95] outline-none shadow-sm focus:border-[#CFCFCC] focus:ring-2 focus:ring-[#EDEDEA]"
                         />
                       </div>
                     )}
@@ -303,7 +321,8 @@ export default function AuthShell() {
                       </div>
                     )}
 
-                    <Button fullWidth className="group !bg-[#FF6B35] !text-white hover:!bg-[#E65A28] !shadow-none">
+                    {/* Ensure CTA meets recommended 44px minimum height on mobile and prevents iOS zoom with 16px text */}
+                    <Button fullWidth className="group !bg-[#FF6B35] !text-white hover:!bg-[#E65A28] !shadow-none min-h-[44px] text-[16px]">
                       <span className="inline-flex items-center justify-center w-full">
                         {mode === 'sign-in' ? (
                           <>
@@ -492,8 +511,10 @@ export default function AuthShell() {
             <span className="block -ml-1 text-xs sm:text-sm leading-none text-white/70 pb-[1px]">With the power of CogNexus</span>
           </div>
           <nav className="hidden items-center gap-5 text-sm text-white/80 sm:flex">
-            <Link href="#" className="hover:text-white">UI Demo</Link>
-            <Link href="#" className="inline-flex items-center gap-1 hover:text-white">Main Platform</Link>
+            {/* Route UI Demo to the landing page for now; no dedicated demo route yet */}
+            <Link href="/" className="hover:text-white">UI Demo</Link>
+            {/* External link to the main platform site (opens in a new tab) */}
+            <Link href="https://cognexus.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-white">Main Platform</Link>
           </nav>
         </div>
       </header>
@@ -508,10 +529,12 @@ export default function AuthShell() {
             <span>&copy; {new Date().getFullYear()} CogNexus</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="#" className="hover:text-white">Status</Link>
-            <Link href="#" className="hover:text-white">Terms</Link>
-            <Link href="#" className="hover:text-white">Privacy</Link>
-            <Link href="#" className="hover:text-white">Help</Link>
+            {/* External status page (opens in a new tab) */}
+            <Link href="https://status.cognexus.io" target="_blank" rel="noopener noreferrer" className="hover:text-white">Status</Link>
+            <Link href="/terms" className="hover:text-white">Terms</Link>
+            <Link href="/privacy" className="hover:text-white">Privacy</Link>
+            {/* Direct email link to support */}
+            <Link href="mailto:support@cognexus.io" className="hover:text-white">Help</Link>
           </div>
         </div>
       </footer>
