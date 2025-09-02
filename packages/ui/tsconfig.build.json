@@ -13,6 +13,10 @@
     "module": "ESNext",
     "target": "ES2019",
     "moduleResolution": "node",
+    // Prevent TypeScript from auto-including all @types/* packages found in the monorepo.
+    // This avoids errors like TS2688: Cannot find type definition file for 'minimatch'
+    // when a transitive type package is referenced but not installed in this package's scope.
+    "types": [] ,
 
     // Ensure React JSX is compiled correctly for the library
     "jsx": "react-jsx"

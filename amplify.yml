@@ -11,6 +11,8 @@ applications:
             # Install from the monorepo root so workspace deps and shared packages are linked
             # Use a local store directory to improve cache hits in Amplify
             - pnpm install --frozen-lockfile -w --store-dir=./.pnpm-store --filter cognexus...
+            # Ensure @cnx/ui's devDependencies are installed before building it (avoid TS2688 during tsc)
+            - pnpm -C ../../packages/ui install --frozen-lockfile --store-dir=../../.pnpm-store
             # Build shared UI package so dist/ exists for consumers (address by path to avoid @-parsing issues)
             - pnpm -C ../../packages/ui build
             # if your shared lib needs compiling, uncomment:
@@ -37,6 +39,8 @@ applications:
             - corepack prepare pnpm@10.15.0 --activate
             # install from the workspace root so shared deps are linked
             - pnpm install --frozen-lockfile -w --store-dir=./.pnpm-store --filter forge...
+            # Ensure @cnx/ui's devDependencies are installed before building it (avoid TS2688 during tsc)
+            - pnpm -C ../../packages/ui install --frozen-lockfile --store-dir=../../.pnpm-store
             # Build shared UI package so dist/ exists for consumers (address by path to avoid @-parsing issues)
             - pnpm -C ../../packages/ui build
             # if your shared lib needs compiling, uncomment:
