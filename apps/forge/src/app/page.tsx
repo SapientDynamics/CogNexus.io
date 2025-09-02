@@ -613,8 +613,10 @@ function SiteHeader() {
           <span className="block -ml-1 text-xs sm:text-sm leading-none text-white/70 pb-[1px]">With the power of CogNexus</span>
         </div>
         <nav className="hidden items-center gap-5 text-sm text-white/80 sm:flex">
-          <Link href="#" className="hover:text-white">UI Demo</Link>
-          <Link href="#" className="inline-flex items-center gap-1 hover:text-white">Main Platform</Link>
+          {/* Route UI Demo to the landing page for now; no dedicated demo route yet */}
+          <Link href="/" className="hover:text-white">UI Demo</Link>
+          {/* External link to the main platform site (opens in a new tab) */}
+          <Link href="https://cognexus.io" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-white">Main Platform</Link>
         </nav>
       </div>
     </header>
@@ -630,10 +632,12 @@ function SiteFooter() {
           <span>&copy; {new Date().getFullYear()} CogNexus</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="#" className="hover:text-white">Status</Link>
-          <Link href="#" className="hover:text-white">Terms</Link>
-          <Link href="#" className="hover:text-white">Privacy</Link>
-          <Link href="#" className="hover:text-white">Help</Link>
+          {/* External status page (opens in a new tab) */}
+          <Link href="https://status.cognexus.io" target="_blank" rel="noopener noreferrer" className="hover:text-white">Status</Link>
+          <Link href="/terms" className="hover:text-white">Terms</Link>
+          <Link href="/privacy" className="hover:text-white">Privacy</Link>
+          {/* Direct email link to support */}
+          <Link href="mailto:support@cognexus.io" className="hover:text-white">Help</Link>
         </div>
       </div>
     </footer>
