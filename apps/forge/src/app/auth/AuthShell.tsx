@@ -255,7 +255,10 @@ export default function AuthShell() {
                         {/* Toggle visibility */}
                         <button
                           type="button"
-                          onClick={() => setShowPassword((s) => !s)}
+                          onClick={() =>
+                            // Explicitly type prev-state `s` to satisfy TS noImplicitAny in CI
+                            setShowPassword((s: boolean) => !s)
+                          }
                           className="absolute inset-y-0 right-2 my-1 grid h-7 w-7 place-items-center rounded-full border border-[#D8D8D6] bg-[#EDEDEA] text-[#6E7681] hover:text-[#1C1E22]"
                           aria-label={showPassword ? 'Hide password' : 'Show password'}
                         >
