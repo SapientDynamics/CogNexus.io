@@ -8,22 +8,23 @@ applications:
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify (kept in sync with root package.json)
             - corepack prepare pnpm@10.15.0 --activate
-            # Perform a single workspace install from the repository root to ensure all deps/devDeps are linked.
-            # Using a single store directory improves cache stability across rebuilds.
-            - pnpm install -w --frozen-lockfile --store-dir=./.pnpm-store
-            # Build the shared UI package once so both apps can consume its dist/ outputs.
-            # Building via a workspace filter avoids per-package installs and respects the lockfile.
-            - pnpm -w --filter @cnx/ui... build
+            # Navigate to repository root and perform workspace install
+            - cd ../..
+            - pnpm install --frozen-lockfile --store-dir=./.pnpm-store
+            # Build the shared UI package once so both apps can consume its dist/ outputs
+            - pnpm --filter @cnx/ui build
         build:
           commands:
-            - pnpm build
+            # Navigate back to repository root for workspace-aware build
+            - cd ../..
+            - pnpm --filter cognexus build
       artifacts:
         baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
-          - .pnpm-store/**/*
+          - ../../.pnpm-store/**/*
           - .next/cache/**/*
   # Forge app: build/deploy from apps/forge
   - appRoot: apps/forge
@@ -34,20 +35,21 @@ applications:
             - corepack enable
             # Pin pnpm version for reproducible builds in Amplify (kept in sync with root package.json)
             - corepack prepare pnpm@10.15.0 --activate
-            # Perform a single workspace install from the repository root to ensure all deps/devDeps are linked.
-            # Using a single store directory improves cache stability across rebuilds.
-            - pnpm install -w --frozen-lockfile --store-dir=./.pnpm-store
-            # Build the shared UI package once so both apps can consume its dist/ outputs.
-            # Building via a workspace filter avoids per-package installs and respects the lockfile.
-            - pnpm -w --filter @cnx/ui... build
+            # Navigate to repository root and perform workspace install
+            - cd ../..
+            - pnpm install --frozen-lockfile --store-dir=./.pnpm-store
+            # Build the shared UI package once so both apps can consume its dist/ outputs
+            - pnpm --filter @cnx/ui build
         build:
           commands:
-            - pnpm build
+            # Navigate back to repository root for workspace-aware build
+            - cd ../..
+            - pnpm --filter forge build
       artifacts:
         baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
-          - .pnpm-store/**/*
+          - ../../.pnpm-store/**/*
           - .next/cache/**/*
