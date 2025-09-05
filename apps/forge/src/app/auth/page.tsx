@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import AuthShell from "./AuthShell";
+import React from 'react';
+import ModernAuth from '../_components/ModernAuth';
 
+// Auth page component for Forge app - serves the modern auth UI
+// This route handles both /auth and /auth?mode=signup and /auth?mode=signin
 export default function AuthPage() {
-  // Thin wrapper around the canonical Forge auth experience.
-  // The actual UI lives in AuthShell (client component) and honors
-  // query params like ?mode=signin|signup for deep linking.
-  return <AuthShell />;
+  return <ModernAuth />;
 }
