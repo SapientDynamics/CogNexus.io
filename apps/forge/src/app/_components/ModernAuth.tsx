@@ -29,6 +29,7 @@ export default function ModernAuth(props: ModernAuthProps) {
   // UI state
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string>('');
+  const [successMessage, setSuccessMessage] = React.useState<string>('');
 
   // Configure Amplify on component mount
   React.useEffect(() => {
@@ -104,8 +105,17 @@ export default function ModernAuth(props: ModernAuthProps) {
           },
         });
         console.log('✅ Sign up successful:', result);
+        
+        // Clear form and switch to sign-in mode
+        setSuccessMessage('Account created successfully! Please sign in with your credentials.');
+        setMode('sign-in');
+        setPassword('');
+        setConfirmPassword('');
+        setFullName('');
+        setAcceptTerms(false);
+        
         // Note: In production, you'd want to handle email verification
-        router.push('/dashboard');
+        // For now, we switch to sign-in mode after successful account creation
       } else {
         // Sign in user
         const result = await signIn({
@@ -257,6 +267,13 @@ export default function ModernAuth(props: ModernAuthProps) {
 
             {/* Auth form */}
             <motion.form onSubmit={handleSubmit} className="space-y-6" variants={itemVariants}>
+              {/* Success message display */}
+              {successMessage && (
+                <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <p className="text-green-400 text-sm">{successMessage}</p>
+                </div>
+              )}
+              
               {/* Error display */}
               {error && (
                 <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
