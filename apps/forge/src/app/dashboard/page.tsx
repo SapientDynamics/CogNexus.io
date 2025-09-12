@@ -39,53 +39,26 @@ export default function Dashboard() {
   const checkAuthStatus = async () => {
     console.log('🔍 Starting authentication check...');
 
-    // First check sessionStorage backup
+    // Check sessionStorage for authentication data
     const isAuthenticatedBackup = sessionStorage.getItem('forge_authenticated');
     const userBackup = sessionStorage.getItem('forge_user');
 
     if (isAuthenticatedBackup === 'true' && userBackup) {
-      console.log('✅ Found authentication backup in sessionStorage');
+      console.log('✅ Found authentication data in sessionStorage');
       setIsAuthenticated(true);
       setIsLoading(false);
       return;
     }
 
-    try {
-      // Dynamic import to avoid SSR issues
-      const { getCurrentUser } = await import('aws-amplify/auth');
-      console.log('📦 Amplify auth module loaded');
+    console.log('❌ No authentication data found');
+    
+    // Clear any stale backup data
+    sessionStorage.removeItem('forge_authenticated');
+    sessionStorage.removeItem('forge_user');
 
-      const user = await getCurrentUser();
-      console.log('✅ User authenticated successfully:', user);
-      console.log('🔑 User details:', {
-        username: user.username,
-        userId: user.userId,
-        signInDetails: user.signInDetails
-      });
-
-      // Store backup in sessionStorage
-      sessionStorage.setItem('forge_authenticated', 'true');
-      sessionStorage.setItem('forge_user', JSON.stringify(user));
-
-      setIsAuthenticated(true);
-    } catch (error: any) {
-      console.log('❌ Authentication failed:', error);
-      console.log('🔍 Error details:', {
-        name: error?.name,
-        message: error?.message,
-        stack: error?.stack
-      });
-
-      // Clear any stale backup data
-      sessionStorage.removeItem('forge_authenticated');
-      sessionStorage.removeItem('forge_user');
-
-      // User is not authenticated, redirect to login
-      router.replace('/');
-    } finally {
-      console.log('🏁 Authentication check completed');
-      setIsLoading(false);
-    }
+    // User is not authenticated, redirect to login
+    router.replace('/auth');
+    setIsLoading(false);
   };
 
   const handleMobileMenuToggle = () => {

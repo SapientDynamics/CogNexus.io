@@ -1,11 +1,18 @@
 'use client';
 
 import React from 'react';
-import ModernAuth from './_components/ModernAuth';
 
-// Home page component for Forge app - now shows the modern auth UI by default
+// Home page component for Forge app - redirects to auth
 export default function Home() {
-  return <ModernAuth />;
+  React.useEffect(() => {
+    window.location.href = '/auth';
+  }, []);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="text-white">Redirecting to login...</div>
+    </div>
+  );
 }
 
 // Rest of the code remains the same

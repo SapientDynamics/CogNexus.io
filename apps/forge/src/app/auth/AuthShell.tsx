@@ -199,10 +199,104 @@ export default function AuthShell() {
 
                   {/* Email/password form */}
                   <form
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault();
-                      // Hook up real auth here (Cognito/Auth.js/etc.)
-                      console.log('[Forge] submit', { mode, email });
+                      
+                      try {
+                        // Show loading state
+                        const submitButton = e.currentTarget.querySelector('button[type="submit"]');
+                        if (submitButton) {
+                          submitButton.setAttribute('disabled', 'true');
+                          submitButton.innerHTML = mode === 'sign-in' ? 
+                            '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Signing in...' : 
+                            '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Creating account...';
+                        }
+                        
+                        console.log('[Forge] Attempting auth:', { mode, email });
+                        
+                        if (mode === 'sign-up') {
+                          // Get form values for sign-up
+                          const nameInput = document.getElementById('name') as HTMLInputElement;
+                          const confirmInput = document.getElementById('confirm') as HTMLInputElement;
+                          const termsInput = document.getElementById('terms') as HTMLInputElement;
+                          
+                          const fullName = nameInput?.value || '';
+                          const confirmPassword = confirmInput?.value || '';
+                          const acceptedTerms = termsInput?.checked || false;
+                          
+                          // Validate form
+                          if (!fullName) {
+                            alert('Please enter your full name');
+                            return;
+                          }
+                          
+                          if (password !== confirmPassword) {
+                            alert('Passwords do not match');
+                            return;
+                          }
+                          
+                          if (!acceptedTerms) {
+                            alert('Please accept the terms and privacy policy');
+                            return;
+                          }
+                          
+                          // Import auth module directly
+                          const auth = await import('aws-amplify/auth');
+                          
+                          // Sign up user
+                          const result = await auth.signUp({
+                            username: email,
+                            password,
+                            options: {
+                              userAttributes: {
+                                email,
+                                name: fullName,
+                              },
+                            },
+                          });
+                          
+                          console.log('[Forge] Sign up successful:', result);
+                          alert('Account created successfully! Please sign in with your credentials.');
+                          setMode('sign-in');
+                          
+                        } else {
+                          // Sign in user
+                          try {
+                            // Import auth module directly
+                            const auth = await import('aws-amplify/auth');
+                            
+                            const signInResult = await auth.signIn({
+                              username: email,
+                              password,
+                            });
+                            
+                            console.log('[Forge] Sign in successful:', signInResult);
+                            
+                            // Store authentication state in sessionStorage as backup
+                            sessionStorage.setItem('forge_authenticated', 'true');
+                            sessionStorage.setItem('forge_user', JSON.stringify({ username: email }));
+                            
+                            // Redirect to dashboard
+                            window.location.href = '/dashboard';
+                            
+                          } catch (signInError: any) {
+                            console.error('[Forge] Sign in error:', signInError);
+                            alert(signInError.message || 'Failed to sign in. Please check your credentials.');
+                          }
+                        }
+                      } catch (err: any) {
+                        console.error('[Forge] Authentication error:', err);
+                        alert(err.message || 'An error occurred during authentication');
+                      } finally {
+                        // Reset button state
+                        const submitButton = e.currentTarget.querySelector('button[type="submit"]');
+                        if (submitButton) {
+                          submitButton.removeAttribute('disabled');
+                          submitButton.innerHTML = mode === 'sign-in' ? 
+                            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2" aria-hidden><rect x="4" y="11" width="16" height="9" rx="2" ry="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>Enter Forge' : 
+                            'Create Access<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 transition-transform group-hover:translate-x-0.5" aria-hidden><polyline points="9 18 15 12 9 6"></polyline></svg>';
+                        }
+                      }
                     }}
                     className="space-y-4"
                   >
