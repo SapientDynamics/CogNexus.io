@@ -3,6 +3,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
+import { useRouter } from 'next/navigation';
+import { useAuth } from './AuthProvider';
 
 interface ModernAuthProps {
   // Optional props for customization
@@ -11,6 +14,8 @@ interface ModernAuthProps {
 export default function ModernAuth(props: ModernAuthProps) {
   // Auth mode state - toggles between sign-in and sign-up
   const [mode, setMode] = React.useState<'sign-in' | 'sign-up'>('sign-up');
+  const router = useRouter();
+  const { checkAuth } = useAuth();
   
   // Form state management
   const [email, setEmail] = React.useState('');
@@ -20,6 +25,43 @@ export default function ModernAuth(props: ModernAuthProps) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [acceptTerms, setAcceptTerms] = React.useState(false);
+  
+  // UI state
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string>('');
+  const [successMessage, setSuccessMessage] = React.useState<string>('');
+
+  // Configure Amplify on component mount
+  React.useEffect(() => {
+    // Dynamic import to avoid SSR issues
+    import('aws-amplify').then(({ Amplify }) => {
+      const awsConfig = {
+        aws_project_region: 'us-east-1',
+        aws_cognito_region: 'us-east-1',
+        aws_user_pools_id: 'us-east-1_by7tu6raq',
+        aws_user_pools_web_client_id: '5qb2qupgofj0vpd6l8pfmn3ln2',
+        oauth: {},
+        federationTarget: 'COGNITO_USER_POOLS',
+        aws_cognito_username_attributes: ['EMAIL'],
+        aws_cognito_social_providers: [],
+        aws_cognito_signup_attributes: ['EMAIL'],
+        aws_cognito_mfa_configuration: 'OFF',
+        aws_cognito_mfa_types: ['SMS'],
+        aws_cognito_password_protection_settings: {
+          passwordPolicyMinLength: 8,
+          passwordPolicyCharacters: []
+        },
+        aws_cognito_verification_mechanisms: ['EMAIL']
+      };
+
+      try {
+        Amplify.configure(awsConfig);
+        console.log('✅ Amplify configured in ModernAuth with SPA client:', awsConfig.aws_user_pools_web_client_id);
+      } catch (error) {
+        console.error('❌ Amplify configuration failed in ModernAuth:', error);
+      }
+    });
+  }, []);
 
   // Derive company hint from email domain
   const companyHint = React.useMemo(() => {
@@ -44,10 +86,57 @@ export default function ModernAuth(props: ModernAuthProps) {
   const passwordStrength = getPasswordStrength(password);
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for actual auth implementation
-    console.log(`[Forge] ${mode} attempt:`, { email, mode });
+    setIsLoading(true);
+    setError('');
+
+    try {
+      if (mode === 'sign-up') {
+        // Sign up user
+        const result = await signUp({
+          username: email,
+          password,
+          options: {
+            userAttributes: {
+              email,
+              name: fullName,
+            },
+          },
+        });
+        console.log('✅ Sign up successful:', result);
+        
+        // Clear form and switch to sign-in mode
+        setSuccessMessage('Account created successfully! Please sign in with your credentials.');
+        setMode('sign-in');
+        setPassword('');
+        setConfirmPassword('');
+        setFullName('');
+        setAcceptTerms(false);
+        
+        // Note: In production, you'd want to handle email verification
+        // For now, we switch to sign-in mode after successful account creation
+      } else {
+        // Sign in user
+        const result = await signIn({
+          username: email,
+          password,
+        });
+        console.log('✅ Sign in successful:', result);
+        
+        // Store authentication state in sessionStorage as backup
+        sessionStorage.setItem('forge_authenticated', 'true');
+        sessionStorage.setItem('forge_user', JSON.stringify(result));
+        
+        // Navigate to dashboard
+        router.push('/dashboard');
+      }
+    } catch (err: any) {
+      console.error('Authentication error:', err);
+      setError(err.message || 'An error occurred during authentication');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Animation variants for smooth transitions
@@ -178,6 +267,19 @@ export default function ModernAuth(props: ModernAuthProps) {
 
             {/* Auth form */}
             <motion.form onSubmit={handleSubmit} className="space-y-6" variants={itemVariants}>
+              {/* Success message display */}
+              {successMessage && (
+                <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <p className="text-green-400 text-sm">{successMessage}</p>
+                </div>
+              )}
+              
+              {/* Error display */}
+              {error && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
+              )}
               {/* Name field for sign-up */}
               {mode === 'sign-up' && (
                 <div>
@@ -350,25 +452,36 @@ export default function ModernAuth(props: ModernAuthProps) {
                 </div>
               )}
 
-              {/* Submit button */}
               <button
                 type="submit"
-                disabled={mode === 'sign-up' && (!acceptTerms || password !== confirmPassword)}
+                disabled={mode === 'sign-up' && (!acceptTerms || password !== confirmPassword) || isLoading}
                 className="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 focus:ring-offset-slate-900 transition-all duration-200 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {mode === 'sign-in' ? (
+                {isLoading ? (
                   <>
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Sign in to Forge
+                    {mode === 'sign-in' ? 'Signing in...' : 'Creating account...'}
                   </>
                 ) : (
                   <>
-                    Create account
-                    <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
+                    {mode === 'sign-in' ? (
+                      <>
+                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                        Continue to Dashboard
+                      </>
+                    ) : (
+                      <>
+                        Create Account & Continue
+                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </>
+                    )}
                   </>
                 )}
               </button>
