@@ -160,7 +160,7 @@ export default function AIChat({ sidebarCollapsed = false, isMobile = false }: A
 
           {/* Messages - Clean Typewriter Style */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
-            {messages.map((message, index) => (
+            {messages.map((message: Message, index: number) => (
               <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[70%] ${message.sender === 'user' ? 'text-right' : 'text-left'}`}>
                   {/* Sender Label */}
