@@ -12,6 +12,7 @@
     "lint": "turbo run lint"
   },
   "devDependencies": {
+    "@types/minimatch": "*",
     "turbo": "^1.10.0"
   },
   "engines": {
