@@ -31,17 +31,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Function to check authentication status
   const checkAuth = async () => {
     try {
-      // Dynamic import to avoid SSR issues
-      const { getCurrentUser } = await import('aws-amplify/auth');
-      const currentUser = await getCurrentUser();
+      // Check sessionStorage for authentication data
+      const isAuthenticatedInSession = sessionStorage.getItem('forge_authenticated') === 'true';
+      const userDataString = sessionStorage.getItem('forge_user');
       
-      console.log('✅ User authenticated in context:', currentUser);
-      setUser(currentUser);
-      setIsAuthenticated(true);
-      setIsLoading(false);
-      return true;
+      if (isAuthenticatedInSession && userDataString) {
+        const userData = JSON.parse(userDataString);
+        console.log('✅ User authenticated from sessionStorage:', userData);
+        setUser(userData);
+        setIsAuthenticated(true);
+        setIsLoading(false);
+        return true;
+      } else {
+        console.log('❌ No authentication data in sessionStorage');
+        setUser(null);
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return false;
+      }
     } catch (error) {
-      console.log('❌ User not authenticated in context:', error);
+      console.log('❌ Error checking authentication:', error);
       setUser(null);
       setIsAuthenticated(false);
       setIsLoading(false);

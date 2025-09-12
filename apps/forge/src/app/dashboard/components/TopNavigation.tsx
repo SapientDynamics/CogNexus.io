@@ -39,20 +39,22 @@ export default function TopNavigation({ onSignOut, onMobileMenuToggle }: TopNavi
           )}
 
           {/* Left Side - Logo */}
-          <div className="flex items-center space-x-3 group">
+          <div className="flex items-end space-x-3 group">
             <div className="relative">
               <img
-                src="/brand/forge_logo_crop_trans.png"
+                src="/brand/FORGE_HEX_COLOR_CROP_TRANSPARENT.png"
                 alt="Forge Logo"
                 className="h-8 w-auto transition-all duration-300 group-hover:scale-105 group-hover:brightness-110"
               />
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
             </div>
             <div className="hidden sm:block">
-              <span className="text-white font-semibold text-lg tracking-wide bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
-                Forge
-              </span>
-              <div className="text-xs text-blue-400 font-medium tracking-wider">AI POWERED</div>
+              <p className="text-xs text-slate-400">
+                Powered by{' '}
+                <Link href="https://cognexus.io" className="hover:text-slate-300 transition-colors">
+                  CogNexus
+                </Link>
+              </p>
             </div>
           </div>
 

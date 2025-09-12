@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import AmplifyConfig from './_components/AmplifyConfig';
-import { AuthProvider } from './_components/AuthProvider';
 
 // Initialize the Inter font with Latin subset
 const inter = Inter({ subsets: ['latin'] });
@@ -42,13 +40,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AmplifyConfig />
-        <AuthProvider>
-          {/* Page content. Individual pages can render their own headers/footers. */}
-          <div>
-            {children}
-          </div>
-        </AuthProvider>
+        {/* Page content. Individual pages can render their own headers/footers. */}
+        <div>
+          {children}
+        </div>
       </body>
     </html>
   );

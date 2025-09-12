@@ -1,72 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
-import { useRouter } from 'next/navigation';
-import { useAuth } from './AuthProvider';
 
-interface ModernAuthProps {
-  // Optional props for customization
-}
-
-export default function ModernAuth(props: ModernAuthProps) {
-  // Auth mode state - toggles between sign-in and sign-up
-  const [mode, setMode] = React.useState<'sign-in' | 'sign-up'>('sign-up');
-  const router = useRouter();
-  const { checkAuth } = useAuth();
-  
-  // Form state management
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
-  const [fullName, setFullName] = React.useState('');
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [acceptTerms, setAcceptTerms] = React.useState(false);
-  
-  // UI state
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string>('');
-  const [successMessage, setSuccessMessage] = React.useState<string>('');
-
-  // Configure Amplify on component mount
-  React.useEffect(() => {
-    // Dynamic import to avoid SSR issues
-    import('aws-amplify').then(({ Amplify }) => {
-      const awsConfig = {
-        aws_project_region: 'us-east-1',
-        aws_cognito_region: 'us-east-1',
-        aws_user_pools_id: 'us-east-1_by7tu6raq',
-        aws_user_pools_web_client_id: '5qb2qupgofj0vpd6l8pfmn3ln2',
-        oauth: {},
-        federationTarget: 'COGNITO_USER_POOLS',
-        aws_cognito_username_attributes: ['EMAIL'],
-        aws_cognito_social_providers: [],
-        aws_cognito_signup_attributes: ['EMAIL'],
-        aws_cognito_mfa_configuration: 'OFF',
-        aws_cognito_mfa_types: ['SMS'],
-        aws_cognito_password_protection_settings: {
-          passwordPolicyMinLength: 8,
-          passwordPolicyCharacters: []
-        },
-        aws_cognito_verification_mechanisms: ['EMAIL']
-      };
-
-      try {
-        Amplify.configure(awsConfig);
-        console.log('✅ Amplify configured in ModernAuth with SPA client:', awsConfig.aws_user_pools_web_client_id);
-      } catch (error) {
-        console.error('❌ Amplify configuration failed in ModernAuth:', error);
-      }
-    });
-  }, []);
-
-  // Derive company hint from email domain
-  const companyHint = React.useMemo(() => {
-    const at = email.indexOf('@');
-    if (at === -1) return 'Use your work email';
+export default function ModernAuth() {
     const domain = email.slice(at + 1).trim();
     if (!domain) return 'Use your work email';
     return `We'll connect you to ${domain} if it's already on CogNexus`;
@@ -90,8 +26,12 @@ export default function ModernAuth(props: ModernAuthProps) {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setSuccessMessage('');
 
     try {
+      // Dynamically import Auth functions to avoid SSR issues
+      const { signUp, signIn, getCurrentUser } = await import('aws-amplify/auth');
+      
       if (mode === 'sign-up') {
         // Sign up user
         const result = await signUp({
@@ -114,25 +54,34 @@ export default function ModernAuth(props: ModernAuthProps) {
         setFullName('');
         setAcceptTerms(false);
         
-        // Note: In production, you'd want to handle email verification
-        // For now, we switch to sign-in mode after successful account creation
       } else {
         // Sign in user
-        const result = await signIn({
-          username: email,
-          password,
-        });
-        console.log('✅ Sign in successful:', result);
+        console.log('Attempting to sign in with:', email);
         
-        // Store authentication state in sessionStorage as backup
-        sessionStorage.setItem('forge_authenticated', 'true');
-        sessionStorage.setItem('forge_user', JSON.stringify(result));
-        
-        // Navigate to dashboard
-        router.push('/dashboard');
+        // Use a try-catch block specifically for sign-in
+        try {
+          const signInResult = await signIn({
+            username: email,
+            password,
+          });
+          
+          console.log('✅ Sign in successful:', signInResult);
+          
+          // Store authentication state in sessionStorage as backup
+          sessionStorage.setItem('forge_authenticated', 'true');
+          sessionStorage.setItem('forge_user', JSON.stringify({ username: email }));
+          
+          // Navigate to dashboard
+          console.log('✅ Redirecting to dashboard');
+          router.push('/dashboard');
+          
+        } catch (signInError: any) {
+          console.error('❌ Sign in error:', signInError);
+          setError(signInError.message || 'Failed to sign in. Please check your credentials.');
+        }
       }
     } catch (err: any) {
-      console.error('Authentication error:', err);
+      console.error('❌ Authentication error:', err);
       setError(err.message || 'An error occurred during authentication');
     } finally {
       setIsLoading(false);
