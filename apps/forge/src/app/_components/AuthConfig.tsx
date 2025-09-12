@@ -39,12 +39,34 @@ export const useAuthConfig = () => {
   };
 };
 
+// Wait for Amplify to be configured
+const waitForAmplifyConfig = async (maxWaitTime = 5000) => {
+  const startTime = Date.now();
+  while (Date.now() - startTime < maxWaitTime) {
+    try {
+      const { Amplify } = await import('aws-amplify');
+      // Check if Amplify is configured by trying to get the config
+      const config = Amplify.getConfig();
+      if (config.Auth?.Cognito?.userPoolId) {
+        return true;
+      }
+    } catch (error) {
+      // Amplify not ready yet
+    }
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  throw new Error('Amplify configuration timeout');
+};
+
 // Authentication service that handles both local and AWS modes
 export const authService = {
   async signIn(email: string, password: string) {
     const isAWS = isAWSEnvironment();
     
     if (isAWS) {
+      // Wait for Amplify to be configured
+      await waitForAmplifyConfig();
+      
       // AWS Amplify authentication
       try {
         const auth = await import('aws-amplify/auth');
@@ -77,6 +99,9 @@ export const authService = {
     const isAWS = isAWSEnvironment();
     
     if (isAWS) {
+      // Wait for Amplify to be configured
+      await waitForAmplifyConfig();
+      
       // AWS Amplify sign up
       try {
         const auth = await import('aws-amplify/auth');
@@ -133,6 +158,9 @@ export const authService = {
     }
     
     if (isAWS) {
+      // Wait for Amplify to be configured
+      await waitForAmplifyConfig();
+      
       // Try AWS Amplify
       try {
         const auth = await import('aws-amplify/auth');
@@ -165,6 +193,9 @@ export default function AuthConfig() {
               Cognito: {
                 userPoolId: 'us-east-1_by7tu6raq',
                 userPoolClientId: '5qb2qupgofj0vpd6l8pfmn3ln2',
+                loginWith: {
+                  email: true,
+                },
               }
             }
           });
