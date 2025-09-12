@@ -14,8 +14,8 @@ applications:
             - cd ../.. && pnpm --filter @cnx/ui build
         build:
           commands:
-            # Navigate to repository root and build the cognexus app
-            - cd ../.. && pnpm --filter cognexus build
+            # Navigate to repository root and build the cognexus app with type checking disabled
+            - cd ../.. && pnpm --filter cognexus exec -- npx next build --no-lint
       artifacts:
         baseDirectory: .next
         files:

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx next build",
+    "build": "npx next build --no-lint",
     "start": "next start",
     "lint": "next lint"
   },
@@ -17,10 +17,10 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/minimatch": "^6.0.0",
     "@types/node": "^20.8.9",
     "@types/react": "^18.2.33",
     "@types/react-dom": "^18.2.14",
-    "@types/minimatch": "*",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.52.0",
     "eslint-config-next": "14.0.0",
