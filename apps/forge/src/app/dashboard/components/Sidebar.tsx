@@ -6,6 +6,9 @@ import Link from 'next/link';
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
+  isMobile?: boolean;
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 interface NavItem {
@@ -16,7 +19,7 @@ interface NavItem {
   active?: boolean;
 }
 
-export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export default function Sidebar({ collapsed, onToggle, isMobile = false, mobileOpen = false, onMobileClose }: SidebarProps) {
   const [activeItem, setActiveItem] = React.useState('dashboard');
 
   const navItems: NavItem[] = [
@@ -95,11 +98,23 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
   ];
 
   return (
-    <aside
-      className={`fixed top-16 left-0 bottom-0 bg-slate-800 border-r-2 border-slate-700 transition-all duration-300 z-40 ${
-        collapsed ? 'w-16' : 'w-64'
-      }`}
-    >
+    <>
+      {/* Mobile Overlay */}
+      {isMobile && mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={onMobileClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed top-16 left-0 bottom-0 bg-slate-800 border-r-2 border-slate-700 transition-all duration-300 z-40 ${
+          isMobile
+            ? `${mobileOpen ? 'translate-x-0' : '-translate-x-full'} w-64`
+            : collapsed ? 'w-16' : 'w-64'
+        } ${isMobile ? 'lg:hidden' : 'hidden lg:block'}`}
+      >
       {/* Collapse/Expand Button */}
       <button
         onClick={onToggle}
@@ -152,5 +167,6 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
         </div>
       )}
     </aside>
+    </>
   );
 }

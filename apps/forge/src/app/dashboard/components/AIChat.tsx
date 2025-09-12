@@ -12,6 +12,7 @@ interface Message {
 
 interface AIChatProps {
   sidebarCollapsed?: boolean;
+  isMobile?: boolean;
 }
 
 // Typewriter Effect Component
@@ -39,7 +40,7 @@ const TypewriterText: React.FC<{ text: string }> = ({ text }: { text: string }) 
   return <span>{displayText}</span>;
 };
 
-export default function AIChat({ sidebarCollapsed = false }: AIChatProps) {
+export default function AIChat({ sidebarCollapsed = false, isMobile = false }: AIChatProps) {
   const [messages, setMessages] = React.useState<Message[]>([
     {
       id: '1',
@@ -127,7 +128,7 @@ export default function AIChat({ sidebarCollapsed = false }: AIChatProps) {
     <>
       {/* Expanded Chat Messages - Only when expanded */}
       {isExpanded && (
-        <div className={`fixed top-16 ${sidebarCollapsed ? 'left-16' : 'left-64'} right-0 bottom-20 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700/50 z-40 transition-all duration-500 ease-out transform ${
+        <div className={`fixed top-16 ${isMobile ? 'left-0' : sidebarCollapsed ? 'left-16' : 'left-64'} right-0 bottom-20 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700/50 z-40 transition-all duration-500 ease-out transform ${
           isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
         }`}>
           {/* Header */}
@@ -217,7 +218,7 @@ export default function AIChat({ sidebarCollapsed = false }: AIChatProps) {
       )}
 
       {/* Input Field - Always at bottom */}
-      <div className={`fixed bottom-0 ${sidebarCollapsed ? 'left-16' : 'left-64'} right-0 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700/50 z-50 transition-all duration-300 ${
+      <div className={`fixed bottom-0 ${isMobile ? 'left-0' : sidebarCollapsed ? 'left-16' : 'left-64'} right-0 bg-slate-800/95 backdrop-blur-sm border-t border-slate-700/50 z-50 transition-all duration-300 ${
         isExpanded ? 'h-20' : 'h-28'
       }`}>
         {/* Collapsed View - Just Input */}

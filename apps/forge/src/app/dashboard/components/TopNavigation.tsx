@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 interface TopNavigationProps {
   onSignOut: () => void;
+  onMobileMenuToggle?: () => void;
 }
 
-export default function TopNavigation({ onSignOut }: TopNavigationProps) {
+export default function TopNavigation({ onSignOut, onMobileMenuToggle }: TopNavigationProps) {
   const [projectDropdownOpen, setProjectDropdownOpen] = React.useState(false);
   const [notificationsOpen, setNotificationsOpen] = React.useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = React.useState(false);
@@ -25,6 +26,18 @@ export default function TopNavigation({ onSignOut }: TopNavigationProps) {
       {/* Top Navigation Bar */}
       <header className="fixed top-0 left-0 right-0 h-16 bg-gradient-to-r from-slate-900/95 via-slate-800/95 to-slate-900/95 backdrop-blur-lg border-b border-slate-700/50 z-50 shadow-lg shadow-slate-900/20">
         <div className="h-full px-6 flex items-center">
+          {/* Mobile Menu Button */}
+          {onMobileMenuToggle && (
+            <button
+              onClick={onMobileMenuToggle}
+              className="lg:hidden mr-4 p-2 text-slate-400 hover:text-white hover:bg-slate-700/60 rounded-xl transition-all duration-300 group/btn backdrop-blur-sm"
+            >
+              <svg className="w-5 h-5 transition-transform duration-300 group-hover/btn:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          )}
+
           {/* Left Side - Logo */}
           <div className="flex items-center space-x-3 group">
             <div className="relative">

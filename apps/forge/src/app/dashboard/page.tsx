@@ -17,9 +17,23 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = React.useState(false);
 
   React.useEffect(() => {
     checkAuthStatus();
+  }, []);
+
+  // Check if device is mobile
+  React.useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+
+    return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
   const checkAuthStatus = async () => {
@@ -74,6 +88,14 @@ export default function Dashboard() {
     }
   };
 
+  const handleMobileMenuToggle = () => {
+    setMobileSidebarOpen(!mobileSidebarOpen);
+  };
+
+  const handleMobileSidebarClose = () => {
+    setMobileSidebarOpen(false);
+  };
+
   const handleSignOut = async () => {
     try {
       // Clear session data
@@ -122,7 +144,10 @@ export default function Dashboard() {
       {/* Content */}
       <div className="relative z-10">
         {/* Top Navigation */}
-        <TopNavigation onSignOut={handleSignOut} />
+        <TopNavigation
+          onSignOut={handleSignOut}
+          onMobileMenuToggle={isMobile ? handleMobileMenuToggle : undefined}
+        />
 
         {/* Main Layout */}
         <div className="flex min-h-screen">
@@ -130,10 +155,15 @@ export default function Dashboard() {
           <Sidebar
             collapsed={sidebarCollapsed}
             onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+            isMobile={isMobile}
+            mobileOpen={mobileSidebarOpen}
+            onMobileClose={handleMobileSidebarClose}
           />
 
           {/* Main Content */}
-          <main className="flex-1 transition-all duration-300 w-full max-w-none pt-16 ml-64">
+          <main className={`flex-1 transition-all duration-300 w-full max-w-none pt-16 ${
+            isMobile ? 'ml-0' : sidebarCollapsed ? 'ml-16' : 'ml-64'
+          }`}>
             <div className="p-6 w-full max-w-none">
               {/* Welcome Header */}
               <div className="mb-6">
@@ -152,7 +182,10 @@ export default function Dashboard() {
               </div>
 
               {/* AI Chat - Bottom of page (Full width) */}
-              <AIChat sidebarCollapsed={sidebarCollapsed} />
+              <AIChat
+                sidebarCollapsed={sidebarCollapsed}
+                isMobile={isMobile}
+              />
             </div>
           </main>
         </div>
