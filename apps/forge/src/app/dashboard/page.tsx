@@ -7,8 +7,10 @@ import { useRouter } from 'next/navigation';
 // Import dashboard components
 import TopNavigation from './components/TopNavigation';
 import Sidebar from './components/Sidebar';
-import DashboardCards from './components/DashboardCards';
-import ChatInput from './components/ChatInput';
+import AIChat from './components/AIChat';
+import ProjectSummaries from './components/ProjectSummaries';
+import QuickTools from './components/QuickTools';
+import RecentActivity from './components/RecentActivity';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -72,12 +74,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleSendMessage = (message: string) => {
-    console.log('User sent message:', message);
-    // Here you would typically send the message to your AI/chat service
-    // For now, we'll just log it
-  };
-
   const handleSignOut = async () => {
     try {
       // Clear session data
@@ -137,18 +133,29 @@ export default function Dashboard() {
           />
 
           {/* Main Content */}
-          <main className={`flex-1 transition-all duration-300 ${sidebarCollapsed ? 'ml-16' : 'ml-64'}`}>
-            <div className="p-6 pb-32">
-              <DashboardCards />
+          <main className="flex-1 transition-all duration-300 w-full max-w-none pt-16 ml-64">
+            <div className="p-6 w-full max-w-none">
+              {/* Welcome Header */}
+              <div className="mb-6">
+                <h1 className="text-3xl font-bold text-white mb-2 tracking-wide">
+                  Welcome to Forge Dashboard
+                </h1>
+                <p className="text-slate-400 text-lg">
+                  Ask questions, manage projects, and access all your construction intelligence.
+                </p>
+              </div>
+
+              {/* Main Dashboard Content */}
+              <div className="space-y-6 w-full max-w-none mb-24">
+                <QuickTools />
+                <RecentActivity />
+              </div>
+
+              {/* AI Chat - Bottom of page (Full width) */}
+              <AIChat sidebarCollapsed={sidebarCollapsed} />
             </div>
           </main>
         </div>
-
-        {/* AI Chat Input */}
-        <ChatInput 
-          onSendMessage={handleSendMessage} 
-          sidebarCollapsed={sidebarCollapsed}
-        />
       </div>
     </div>
   );

@@ -96,9 +96,9 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
 
   return (
     <aside
-      className={`bg-slate-800 border-r-2 border-slate-700 transition-all duration-300 ${
+      className={`fixed top-16 left-0 bottom-0 bg-slate-800 border-r-2 border-slate-700 transition-all duration-300 z-40 ${
         collapsed ? 'w-16' : 'w-64'
-      } relative z-40`}
+      }`}
     >
       {/* Collapse/Expand Button */}
       <button

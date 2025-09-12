@@ -22,7 +22,7 @@ export default function TopNavigation({ onSignOut }: TopNavigationProps) {
   return (
     <>
       {/* Top Navigation Bar */}
-      <header className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-600/30 relative z-50">
+      <header className="fixed top-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-b border-slate-600/30 z-50 h-16">
         <div className="px-8 py-4">
           <div className="flex items-center justify-between">
             {/* Left Side - Logo and Project Dropdown */}
