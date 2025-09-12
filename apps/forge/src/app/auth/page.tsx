@@ -89,7 +89,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 w-full overflow-x-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 via-transparent to-orange-500/10" />
       
@@ -119,7 +119,7 @@ export default function AuthPage() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex min-h-screen">
+      <div className="relative z-10 flex min-h-screen w-full">
         {/* Left Column - Auth Form */}
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <motion.div 
@@ -137,7 +137,17 @@ export default function AuthPage() {
                   className="h-16 w-auto mx-auto"
                 />
               </div>
-              <p className="text-xs text-slate-400 mb-4">Powered by CogNexus</p>
+              <p className="text-xs text-slate-400 mb-4">
+                Powered by{' '}
+                <Link 
+                  href="https://cognexus.io" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-slate-300 hover:text-white transition-colors underline"
+                >
+                  CogNexus
+                </Link>
+              </p>
               <p className="text-slate-400">
                 {mode === 'sign-in' ? 'Sign in to your account' : 'Create your account to get started'}
               </p>
@@ -401,7 +411,10 @@ export default function AuthPage() {
         </div>
 
         {/* Right Column - Features Panel (hidden on mobile) */}
-        <div className="hidden lg:flex lg:w-1/2 bg-[#1E2A3A] flex-col justify-center px-16">
+        <div className="hidden lg:flex lg:w-1/2 relative flex-col justify-center min-h-screen">
+          {/* Blue background that extends to viewport edge */}
+          <div className="absolute inset-0 bg-[#1E2A3A] w-screen right-0"></div>
+          <div className="px-16 relative z-10">
           <div className="max-w-md">
             <h2 className="text-3xl font-bold text-white mb-2">
               Transform your construction workflow
@@ -448,6 +461,7 @@ export default function AuthPage() {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
