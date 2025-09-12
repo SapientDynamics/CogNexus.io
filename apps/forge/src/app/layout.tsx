@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import AuthConfig from './_components/AuthConfig';
 
 // Initialize the Inter font with Latin subset
 const inter = Inter({ subsets: ['latin'] });
@@ -40,6 +41,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="w-full h-full">
       <body className={`${inter.className} w-full h-full m-0 p-0`}>
+        {/* Initialize AWS Amplify configuration */}
+        <AuthConfig />
         {/* Page content. Individual pages can render their own headers/footers. */}
         <div className="w-full h-full">
           {children}
